@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const currentInput = document.getElementById('deal-deal-price');
   if (originalInput) originalInput.addEventListener('input', calculateDiscount);
   if (currentInput) currentInput.addEventListener('input', calculateDiscount);
+  
+  const form = document.getElementById('publish-form');
+  if (form) form.addEventListener('submit', handlePublishDeal);
 });
 
 function calculateDiscount() {

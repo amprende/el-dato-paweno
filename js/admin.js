@@ -153,7 +153,7 @@ window.handlePublishDeal = async function(e) {
     
     if (error) {
       console.error('Error guardando en Supabase:', error);
-      alert('Error al guardar la oferta en la nube.');
+      alert('Error al guardar la oferta en la nube: ' + error.message);
       return;
     }
     console.log('Guardado en Supabase con éxito');

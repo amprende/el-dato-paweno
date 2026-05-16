@@ -124,7 +124,7 @@ function getRarityLabel(rarity) {
 
 // Helper to format currency
 function formatCurrency(amount) {
-  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(amount);
+  return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(amount);
 }
 
 // Helper to calculate discount percentage

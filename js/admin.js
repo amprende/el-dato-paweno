@@ -5,8 +5,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function calculateDiscount() {
-  const original = parseFloat(document.getElementById('deal-original-price').value.replace(',', '.'));
-  const current = parseFloat(document.getElementById('deal-deal-price').value.replace(',', '.'));
+  const originalStr = document.getElementById('deal-original-price').value;
+  const currentStr = document.getElementById('deal-deal-price').value;
+  
+  console.log('calculateDiscount triggered. Original:', originalStr, 'Current:', currentStr);
+  
+  const original = parseFloat(originalStr.replace(',', '.'));
+  const current = parseFloat(currentStr.replace(',', '.'));
+  
+  console.log('Parsed values - Original:', original, 'Current:', current);
   
   const discountDisplay = document.getElementById('calculated-discount');
   const rarityAuto = document.getElementById('auto-rarity');

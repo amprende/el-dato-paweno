@@ -99,9 +99,22 @@ async function handlePublishDeal(e) {
 
   // Guardar en Supabase
   if (typeof supabase !== 'undefined' && supabase) {
+    const dealForSupabase = {
+      title,
+      category,
+      originalprice: originalPrice,
+      dealprice: dealPrice,
+      rarity,
+      store,
+      url,
+      imageurl: imageUrl,
+      stock,
+      timestamp: newDeal.timestamp
+    };
+
     const { data, error } = await supabase
       .from('deals')
-      .insert([newDeal])
+      .insert([dealForSupabase])
       .select();
     
     if (error) {
@@ -111,7 +124,12 @@ async function handlePublishDeal(e) {
     }
     console.log('Guardado en Supabase con éxito');
     if (data && data.length > 0) {
-      dealToPush = data[0]; // Usar el objeto con el ID generado por Supabase
+      dealToPush = {
+        ...data[0],
+        originalPrice: data[0].originalprice,
+        dealPrice: data[0].dealprice,
+        imageUrl: data[0].imageurl
+      };
     }
   } else {
     // Fallback a localStorage

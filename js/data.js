@@ -98,7 +98,12 @@ async function getDealsFromSupabase() {
     return DEALS_DATA;
   }
   
-  const deals = data && data.length > 0 ? data : DEALS_DATA;
+  const deals = data && data.length > 0 ? data.map(deal => ({
+    ...deal,
+    originalPrice: deal.originalprice,
+    dealPrice: deal.dealprice,
+    imageUrl: deal.imageurl
+  })) : DEALS_DATA;
   
   // Actualizar DEALS_DATA en memoria para que funcione con los filtros existentes
   DEALS_DATA.length = 0;

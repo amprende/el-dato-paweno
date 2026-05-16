@@ -16,6 +16,8 @@ function renderDeals(deals) {
   const grid = document.getElementById('deals-grid');
   if (!grid) return;
 
+  console.log('Rendering deals in grid:', deals);
+
   if (deals.length === 0) {
     grid.innerHTML = `
       <div style="grid-column: 1/-1; text-align: center; padding: var(--space-xl);">

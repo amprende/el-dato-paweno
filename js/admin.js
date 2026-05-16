@@ -194,7 +194,7 @@ window.handlePublishDeal = async function(e) {
   formData.append('notifyPhone', notifyPhone);
 
   console.log('Enviando notificación a Google Sheets...');
-  fetch('https://script.google.com/macros/s/AKfycbzwT8NZZ02jUktMuq-YiACf7L9O6IOeabnG0j1HKbk28y30EdPfElYVHuWrHk--ic46Zw/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbxk0pj3eDLfnj95x2Z1dBrmI1kziF_gmPEE4SedgIplRUCEtgpEhDuydB-z1MiVD09snw/exec', {
     method: 'POST',
     mode: 'no-cors',
     body: formData

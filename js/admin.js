@@ -57,13 +57,16 @@ function renderAdminDeals() {
 
   list.innerHTML = DEALS_DATA.map(deal => {
     const discount = calculateDiscountPercentage(deal.originalPrice, deal.dealPrice);
+    const rarity = deal.rarity || 'common';
+    const store = deal.store || 'Tienda';
+    const title = deal.title || 'Sin título';
     
     return `
       <div class="admin-deal-item" style="display: flex; justify-content: space-between; align-items: center;">
         <div class="deal-item-info">
-          <span class="deal-item-title">${deal.title}</span>
+          <span class="deal-item-title">${title}</span>
           <div class="deal-item-meta">
-            ${deal.store} · <span class="rarity-badge ${deal.rarity}">${deal.rarity.toUpperCase()}</span>
+            ${store} · <span class="rarity-badge ${rarity}">${rarity.toUpperCase()}</span>
           </div>
         </div>
         <div style="display: flex; align-items: center;">

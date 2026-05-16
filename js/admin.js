@@ -78,9 +78,10 @@ function renderAdminDeals() {
   }).join('');
 }
 
-async function handlePublishDeal(e) {
+window.handlePublishDeal = async function(e) {
   e.preventDefault();
   console.log('Iniciando publicación de oferta...');
+  try {
   
   // Recoger datos del formulario
   const title = document.getElementById('deal-title').value || 'Sin título';
@@ -200,6 +201,10 @@ async function handlePublishDeal(e) {
     document.getElementById('auto-rarity').textContent = 'Introduce los precios';
     document.querySelectorAll('.rarity-btn').forEach(btn => btn.classList.remove('active'));
   }, 3000);
+  } catch (err) {
+    console.error('ERROR en handlePublishDeal:', err);
+    alert('Error al publicar: ' + err.message);
+  }
 }
 
 function handleFileSelect(input) {

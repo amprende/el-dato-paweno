@@ -209,6 +209,8 @@ window.handlePublishDeal = async function(e) {
   setTimeout(() => {
     toast.style.display = 'none';
     document.getElementById('publish-form').reset();
+    document.getElementById('image-previews').innerHTML = '';
+    uploadedImages = [];
     document.getElementById('calculated-discount').textContent = '—';
     document.getElementById('auto-rarity').textContent = 'Introduce los precios';
     document.querySelectorAll('.rarity-btn').forEach(btn => btn.classList.remove('active'));
@@ -224,12 +226,16 @@ function handleFileSelect(input) {
   if (!files || files.length === 0) return;
   
   const previewsContainer = document.getElementById('image-previews');
-  previewsContainer.innerHTML = ''; // Limpiar anteriores
-  uploadedImages = []; // Reiniciar array
   
-  // Limitar a 10
-  const count = Math.min(files.length, 10);
-  document.getElementById('file-name').textContent = `${count} archivos seleccionados`;
+  // Limitar a 10 en total
+  const remainingSlots = 10 - uploadedImages.length;
+  if (remainingSlots <= 0) {
+    alert('Ya has alcanzado el límite de 10 imágenes.');
+    return;
+  }
+  
+  const count = Math.min(files.length, remainingSlots);
+  document.getElementById('file-name').textContent = `${uploadedImages.length + count} archivos seleccionados`;
   
   for (let i = 0; i < count; i++) {
     const file = files[i];
@@ -249,8 +255,8 @@ function handleFileSelect(input) {
       img.style.border = '1px solid var(--border-color)';
       previewsContainer.appendChild(img);
       
-      // Si es la primera, ponerla en el input de URL principal
-      if (i === 0) {
+      // Si es la primera de todas, ponerla en el input de URL principal
+      if (uploadedImages.length === 1) {
         document.getElementById('deal-image-url').value = base64;
       }
     };

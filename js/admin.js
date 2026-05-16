@@ -180,26 +180,24 @@ window.handlePublishDeal = async function(e) {
   console.log('DEALS_DATA actualizado y re-renderizado.');
 
   // Enviar notificaciones via Google Sheets
-  const formData = new URLSearchParams();
-  formData.append('title', title);
-  formData.append('price', formatCurrency(dealPrice));
-  formData.append('url', url);
-  formData.append('rarity', rarity);
-  formData.append('store', store);
-  formData.append('action', 'publish_offer');
-  
-  const notifyEmail = document.getElementById('notify-email').checked;
-  const notifyPhone = document.getElementById('notify-phone').checked;
-  formData.append('notifyEmail', notifyEmail);
-  formData.append('notifyPhone', notifyPhone);
+  const notifyData = {
+    title,
+    price: formatCurrency(dealPrice),
+    url,
+    rarity,
+    store,
+    action: 'publish_offer',
+    notifyEmail: document.getElementById('notify-email').checked,
+    notifyPhone: document.getElementById('notify-phone').checked
+  };
 
   console.log('Enviando notificación a Google Sheets...');
-  fetch('https://script.google.com/macros/s/AKfycbzV41PMQpEnrpuZMsVNxh_FI11Dc7rlyyCRfFjo413f9I4kfscNP1gRfEv3uUkqMBJctA/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbwv26TG4c53qeGofUJDdbkiqUkhxLOGvPHOyJSqwzzkyN3yCBIdSMZdFon0spoR0HOaBg/exec', {
     method: 'POST',
     mode: 'no-cors',
-    body: formData
+    body: JSON.stringify(notifyData)
   })
-  .then(() => console.log('Notificación enviada con éxito (modo no-cors)'))
+  .then(() => console.log('Notificación enviada con éxito'))
   .catch(err => console.error('Error al enviar notificación:', err));
 
   // Mostrar toast

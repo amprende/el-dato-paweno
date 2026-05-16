@@ -83,15 +83,15 @@ const DEALS_DATA = [
 // Inicializar Supabase
 const supabaseUrl = 'https://qfvkjtrcgwsuivsrfpfd.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmdmtqdHJjZ3dzdWl2c3JmcGZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2NDQ5NjMsImV4cCI6MjA5MzIyMDk2M30.C3yN_DvjqEc8uV1GpHTW4gzcbxlNaO8CQrnnsY8Mr8k';
-const supabaseClient = typeof supabase !== 'undefined' ? supabase.createClient(supabaseUrl, supabaseKey) : null;
+window.supabaseClient = typeof supabase !== 'undefined' ? supabase.createClient(supabaseUrl, supabaseKey) : null;
 
 // Función para cargar ofertas desde Supabase
 async function getDealsFromSupabase() {
-  if (!supabaseClient) {
+  if (!window.supabaseClient) {
     console.log('Supabase client not available, using static data');
     return DEALS_DATA;
   }
-  const { data, error } = await supabaseClient
+  const { data, error } = await window.supabaseClient
     .from('deals')
     .select('*')
     .order('id', { ascending: false });

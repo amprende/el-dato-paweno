@@ -119,7 +119,7 @@ async function handlePublishDeal(e) {
   let dealToPush = newDeal;
 
   // Guardar en Supabase
-  if (typeof supabase !== 'undefined' && supabase) {
+  if (window.supabaseClient) {
     const dealForSupabase = {
       title,
       category,
@@ -133,7 +133,7 @@ async function handlePublishDeal(e) {
       timestamp: newDeal.timestamp
     };
 
-    const { data, error } = await supabase
+    const { data, error } = await window.supabaseClient
       .from('deals')
       .insert([dealForSupabase])
       .select();
@@ -225,8 +225,8 @@ window.deleteDeal = async function(id) {
   console.log('deleteDeal llamada con ID:', id);
 
   // 1. Eliminar de Supabase
-  if (typeof supabase !== 'undefined' && supabase) {
-    const { error } = await supabase
+  if (window.supabaseClient) {
+    const { error } = await window.supabaseClient
       .from('deals')
       .delete()
       .eq('id', id);

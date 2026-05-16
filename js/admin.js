@@ -1,8 +1,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  await getDealsFromSupabase();
-  renderAdminDeals();
-  
-  // Agregar listeners para calcular descuento
+  try {
+    await dealsLoadedPromise;
+    renderAdminDeals();
+  } catch (error) {
+    console.error('Error al cargar ofertas:', error);
+  }
+
+  // Agregar listeners para calcular descuento (siempre se ejecutan)
   const originalInput = document.getElementById('deal-original-price');
   const currentInput = document.getElementById('deal-deal-price');
   if (originalInput) originalInput.addEventListener('input', calculateDiscount);

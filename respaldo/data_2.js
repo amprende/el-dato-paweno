@@ -108,11 +108,9 @@ async function getDealsFromSupabase() {
   // Actualizar DEALS_DATA en memoria para que funcione con los filtros existentes
   DEALS_DATA.length = 0;
   DEALS_DATA.push(...deals);
+  
   return DEALS_DATA;
 }
-
-// Iniciar la carga inmediatamente y exponer la promesa
-const dealsLoadedPromise = getDealsFromSupabase();
 
 // Helper to get rarity label
 function getRarityLabel(rarity) {

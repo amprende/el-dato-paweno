@@ -1,6 +1,6 @@
 // OFERTAS.JS - WALL PAGE
 document.addEventListener('DOMContentLoaded', async () => {
-  await dealsLoadedPromise;
+  await getDealsFromSupabase();
   renderDeals(DEALS_DATA);
   updateResultsCount(DEALS_DATA.length);
 });

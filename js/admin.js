@@ -83,13 +83,18 @@ async function handlePublishDeal(e) {
   console.log('Iniciando publicación de oferta...');
   
   // Recoger datos del formulario
-  const title = document.getElementById('deal-title').value;
-  const category = document.getElementById('deal-category').value;
-  const originalPrice = parseFloat(document.getElementById('deal-original-price').value.replace(',', '.'));
-  const dealPrice = parseFloat(document.getElementById('deal-deal-price').value.replace(',', '.'));
-  const store = document.getElementById('deal-store').value;
-  const url = document.getElementById('deal-url').value;
-  const description = document.getElementById('deal-description').value;
+  const title = document.getElementById('deal-title').value || 'Sin título';
+  const category = document.getElementById('deal-category').value || 'Otros';
+  
+  const originalStr = document.getElementById('deal-original-price').value;
+  const originalPrice = originalStr ? parseFloat(originalStr.replace(',', '.')) : null;
+  
+  const currentStr = document.getElementById('deal-deal-price').value;
+  const dealPrice = currentStr ? parseFloat(currentStr.replace(',', '.')) : null;
+  
+  const store = document.getElementById('deal-store').value || 'Tienda';
+  const url = document.getElementById('deal-url').value || '#';
+  const description = document.getElementById('deal-description').value || '';
   const imageUrl = document.getElementById('deal-image-url').value || 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format';
   const stock = document.getElementById('deal-stock').value ? parseInt(document.getElementById('deal-stock').value) : null;
   

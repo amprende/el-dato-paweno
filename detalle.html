@@ -199,9 +199,9 @@
         <div class="image-gallery">
           <div class="main-image" style="background-image: url('${deal.imageUrl}')"></div>
           <div class="thumbnails">
-            <div class="thumbnail active" style="background-image: url('${deal.imageUrl}')"></div>
-            <div class="thumbnail" style="background-image: url('https://images.unsplash.com/photo-1511385348-a52b4a160dc2?w=500&auto=format')"></div>
-            <div class="thumbnail" style="background-image: url('https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&auto=format')"></div>
+            <div class="thumbnail active" style="background-image: url('${deal.imageUrl}')" onclick="changeImage(this, '${deal.imageUrl}')"></div>
+            <div class="thumbnail" style="background-image: url('https://images.unsplash.com/photo-1511385348-a52b4a160dc2?w=500&auto=format')" onclick="changeImage(this, 'https://images.unsplash.com/photo-1511385348-a52b4a160dc2?w=500&auto=format')"></div>
+            <div class="thumbnail" style="background-image: url('https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&auto=format')" onclick="changeImage(this, 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&auto=format')"></div>
           </div>
         </div>
         
@@ -253,6 +253,12 @@
           </div>
         </div>
       `;
+    }
+
+    function changeImage(element, url) {
+      document.querySelector('.main-image').style.backgroundImage = `url('${url}')`;
+      document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+      element.classList.add('active');
     }
   </script>
 </body>

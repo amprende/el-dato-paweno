@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LootDeals - ¡Encuentra las mejores ofertas aquí!</title>
+  <meta name="description" content="Descuentos épicos y legendarios a un clic de distancia. Únete a la comunidad de cazadores de chollos más grande del mundo gamer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">LootDeals</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link active" id="nav-home">
+          <span class="material-icons">home</span> Inicio
+        </a>
+        <a href="ofertas.html" class="nav-link" id="nav-ofertas">
+          <span class="material-icons">local_fire_department</span> Ofertas
+        </a>
+        <a href="admin.html" class="nav-link" id="nav-admin">
+          <span class="material-icons">dashboard</span> Panel
+        </a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn-subscribe-nav" onclick="window.location.href='ofertas.html'">
+          <span class="material-icons">notifications</span> Alertas
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-particles" id="particles"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="material-icons">bolt</span> Nuevo: Sistema de Rareza de Ofertas
+      </div>
+      <h1 class="hero-title">Descuentos <span class="text-gradient">Épicos & Legendarios</span> a un Clic de Distancia</h1>
+      <p class="hero-subtitle">Únete a la comunidad de cazadores de chollos más grande del mundo gamer. Ofertas clasificadas por rareza, desde Common hasta Legendary.</p>
+      <div class="hero-actions">
+        <a href="ofertas.html" class="btn-primary" id="btn-ver-ofertas">
+          <span class="material-icons">trending_up</span> Ver Ofertas
+        </a>
+        <a href="admin.html" class="btn-secondary" id="btn-admin-access">
+          <span class="material-icons">admin_panel_settings</span> Acceso Administradores
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">+12K</span>
+          <span class="stat-label">Cazadores Activos</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">847</span>
+          <span class="stat-label">Ofertas Hoy</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">€2.3M</span>
+          <span class="stat-label">Ahorrado Este Mes</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-stack">
+        <div class="floating-card card-legendary">
+          <div class="card-badge legendary-badge">👑 LEGENDARY</div>
+          <div class="card-discount">-85%</div>
+          <div class="card-name">Laptop Pro X-9000</div>
+          <div class="card-prices">
+            <span class="price-old">€1,299</span>
+            <span class="price-new">€194</span>
+          </div>
+          <div class="card-shimmer"></div>
+        </div>
+        <div class="floating-card card-epic">
+          <div class="card-badge epic-badge">💎 EPIC</div>
+          <div class="card-discount">-67%</div>
+          <div class="card-name">Studio ANC Wireless</div>
+          <div class="card-prices">
+            <span class="price-old">€299</span>
+            <span class="price-new">€99</span>
+          </div>
+        </div>
+        <div class="floating-card card-common">
+          <div class="card-badge common-badge">🍃 COMMON</div>
+          <div class="card-discount">-40%</div>
+          <div class="card-name">Mouse Gamer RGB v2</div>
+          <div class="card-prices">
+            <span class="price-old">€79</span>
+            <span class="price-new">€47</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAST LOOT TICKER -->
+  <div class="loot-ticker">
+    <div class="ticker-label"><span class="material-icons">bolt</span> Último Loot</div>
+    <div class="ticker-track">
+      <div class="ticker-items">
+        <span class="ticker-item legendary">👑 Laptop Pro X-9000 — <strong>-85%</strong> · hace 2 min</span>
+        <span class="ticker-item epic">💎 Sony WH-1000XM5 — <strong>-60%</strong> · hace 5 min</span>
+        <span class="ticker-item common">🍃 SSD 1TB Kingston — <strong>-45%</strong> · hace 8 min</span>
+        <span class="ticker-item legendary">👑 MacBook Air M3 — <strong>-30%</strong> · hace 12 min</span>
+        <span class="ticker-item epic">💎 PS5 DualSense — <strong>-55%</strong> · hace 15 min</span>
+        <span class="ticker-item common">🍃 Cable USB-C — <strong>-70%</strong> · hace 20 min</span>
+        <span class="ticker-item legendary">👑 Laptop Pro X-9000 — <strong>-85%</strong> · hace 2 min</span>
+        <span class="ticker-item epic">💎 Sony WH-1000XM5 — <strong>-60%</strong> · hace 5 min</span>
+        <span class="ticker-item common">🍃 SSD 1TB Kingston — <strong>-45%</strong> · hace 8 min</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <section class="categories-section" id="categories">
+    <div class="container">
+      <h2 class="section-title">Explorar por Categoría</h2>
+      <p class="section-subtitle">Encuentra chollos en todas las categorías</p>
+      <div class="categories-grid">
+        <a href="ofertas.html?cat=electronica" class="category-card" id="cat-electronica">
+          <div class="cat-icon">💻</div>
+          <div class="cat-name">Electrónica</div>
+          <div class="cat-count">342 ofertas</div>
+        </a>
+        <a href="ofertas.html?cat=gaming" class="category-card" id="cat-gaming">
+          <div class="cat-icon">🎮</div>
+          <div class="cat-name">Gaming</div>
+          <div class="cat-count">218 ofertas</div>
+        </a>
+        <a href="ofertas.html?cat=moda" class="category-card" id="cat-moda">
+          <div class="cat-icon">👗</div>
+          <div class="cat-name">Moda</div>
+          <div class="cat-count">189 ofertas</div>
+        </a>
+        <a href="ofertas.html?cat=hogar" class="category-card" id="cat-hogar">
+          <div class="cat-icon">🏠</div>
+          <div class="cat-name">Hogar</div>
+          <div class="cat-count">156 ofertas</div>
+        </a>
+        <a href="ofertas.html?cat=viajes" class="category-card" id="cat-viajes">
+          <div class="cat-icon">✈️</div>
+          <div class="cat-name">Viajes</div>
+          <div class="cat-count">97 ofertas</div>
+        </a>
+        <a href="ofertas.html?cat=alimentacion" class="category-card" id="cat-alimentacion">
+          <div class="cat-icon">🍕</div>
+          <div class="cat-name">Alimentación</div>
+          <div class="cat-count">124 ofertas</div>
+        </a>
+        <a href="ofertas.html?cat=deportes" class="category-card" id="cat-deportes">
+          <div class="cat-icon">⚽</div>
+          <div class="cat-name">Deportes</div>
+          <div class="cat-count">83 ofertas</div>
+        </a>
+        <a href="ofertas.html?cat=libros" class="category-card" id="cat-libros">
+          <div class="cat-icon">📚</div>
+          <div class="cat-name">Libros</div>
+          <div class="cat-count">201 ofertas</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED DEALS -->
+  <section class="deals-section" id="featured-deals">
+    <div class="container">
+      <div class="section-header-row">
+        <div>
+          <h2 class="section-title">Ofertas Destacadas</h2>
+          <p class="section-subtitle">Las mejores oportunidades de hoy ordenadas por rareza</p>
+        </div>
+        <a href="ofertas.html" class="btn-outline">Ver todas <span class="material-icons">arrow_forward</span></a>
+      </div>
+      <div class="deals-grid" id="featured-deals-grid">
+        <!-- Cards generated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- RARITY GUIDE -->
+  <section class="rarity-section" id="rarity-guide">
+    <div class="container">
+      <h2 class="section-title">Sistema de Rareza</h2>
+      <p class="section-subtitle">Cuanto mayor la rareza, mayor el ahorro garantizado</p>
+      <div class="rarity-grid">
+        <div class="rarity-card rarity-common">
+          <div class="rarity-icon">🍃</div>
+          <h3>Common</h3>
+          <p>Descuentos del 10% al 40%. Buenas ofertas del día a día para productos básicos.</p>
+          <div class="rarity-bar"><div class="bar-fill common-fill"></div></div>
+          <span class="rarity-range">10% – 40% OFF</span>
+        </div>
+        <div class="rarity-card rarity-epic">
+          <div class="rarity-icon">💎</div>
+          <h3>Epic</h3>
+          <p>Descuentos del 40% al 70%. Ofertas de tiempo limitado con stock reducido.</p>
+          <div class="rarity-bar"><div class="bar-fill epic-fill"></div></div>
+          <span class="rarity-range">40% – 70% OFF</span>
+        </div>
+        <div class="rarity-card rarity-legendary">
+          <div class="rarity-icon">👑</div>
+          <h3>Legendary</h3>
+          <p>Descuentos superiores al 70%. Oportunidades únicas que no se repiten. ¡Actúa rápido!</p>
+          <div class="rarity-bar"><div class="bar-fill legendary-fill"></div></div>
+          <span class="rarity-range">70%+ OFF</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER CTA -->
+  <section class="newsletter-section" id="newsletter">
+    <div class="container">
+      <div class="newsletter-card">
+        <div class="newsletter-content">
+          <h2>🔔 Recibe Alertas de Ofertas Legendarias</h2>
+          <p>Sé el primero en enterarte cuando caiga una oferta Legendary o Epic. Sin spam, solo chollos puros.</p>
+          <form class="newsletter-form" id="newsletter-form" onsubmit="handleSubscribe(event)">
+            <input type="email" id="email-input" placeholder="tucorreo@ejemplo.com" required class="email-input">
+            <button type="submit" class="btn-primary" id="btn-subscribe">
+              <span class="material-icons">send</span> Suscribirme
+            </button>
+          </form>
+          <p class="newsletter-disclaimer">✓ Gratis · ✓ Sin spam · ✓ Baja cuando quieras</p>
+        </div>
+        <div class="newsletter-visual">
+          <div class="notification-mockup">
+            <div class="notif-item">
+              <span class="notif-icon">👑</span>
+              <div class="notif-text">
+                <strong>LEGENDARY DEAL!</strong>
+                <span>iPhone 15 Pro -82% · 2 unidades</span>
+              </div>
+              <span class="notif-time">ahora</span>
+            </div>
+            <div class="notif-item">
+              <span class="notif-icon">💎</span>
+              <div class="notif-text">
+                <strong>EPIC DEAL!</strong>
+                <span>Samsung QLED 55" -65%</span>
+              </div>
+              <span class="notif-time">5 min</span>
+            </div>
+            <div class="notif-item">
+              <span class="notif-icon">🍃</span>
+              <div class="notif-text">
+                <strong>NEW DEAL</strong>
+                <span>Auriculares JBL -35%</span>
+              </div>
+              <span class="notif-time">12 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">⚡ LootDeals</div>
+          <p>La comunidad de cazadores de chollos más grande. Ofertas verificadas, clasificadas por rareza.</p>
+          <div class="social-links">
+            <a href="#" class="social-link" id="social-facebook"><span class="material-icons">facebook</span></a>
+            <a href="#" class="social-link" id="social-twitter"><span class="material-icons">share</span></a>
+            <a href="#" class="social-link" id="social-instagram"><span class="material-icons">photo_camera</span></a>
+            <a href="#" class="social-link" id="social-tiktok"><span class="material-icons">music_note</span></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Plataforma</h4>
+          <ul>
+            <li><a href="ofertas.html">Muro de Ofertas</a></li>
+            <li><a href="ofertas.html?cat=gaming">Gaming</a></li>
+            <li><a href="ofertas.html?cat=electronica">Electrónica</a></li>
+            <li><a href="admin.html">Panel Admin</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Comunidad</h4>
+          <ul>
+            <li><a href="#">Foro</a></li>
+            <li><a href="#">Discord</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Newsletter</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacidad</a></li>
+            <li><a href="#">Términos</a></li>
+            <li><a href="#">Contacto</a></li>
+            <li><a href="#">Ayuda</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 LootDeals platform. All rights reserved.</p>
+        <p>Actualizado hace <span id="last-update">5</span> minutos</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html" class="mobile-nav-item active" id="mnav-home">
+      <span class="material-icons">home</span>
+      <span>Inicio</span>
+    </a>
+    <a href="ofertas.html" class="mobile-nav-item" id="mnav-ofertas">
+      <span class="material-icons">local_fire_department</span>
+      <span>Ofertas</span>
+    </a>
+    <a href="admin.html" class="mobile-nav-item" id="mnav-panel">
+      <span class="material-icons">dashboard</span>
+      <span>Panel</span>
+    </a>
+  </nav>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

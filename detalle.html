@@ -199,9 +199,13 @@
         <div class="image-gallery">
           <div class="main-image" style="background-image: url('${deal.imageUrl}')"></div>
           <div class="thumbnails">
-            <div class="thumbnail active" style="background-image: url('${deal.imageUrl}')" onclick="changeImage(this, '${deal.imageUrl}')"></div>
-            <div class="thumbnail" style="background-image: url('https://images.unsplash.com/photo-1511385348-a52b4a160dc2?w=500&auto=format')" onclick="changeImage(this, 'https://images.unsplash.com/photo-1511385348-a52b4a160dc2?w=500&auto=format')"></div>
-            <div class="thumbnail" style="background-image: url('https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&auto=format')" onclick="changeImage(this, 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&auto=format')"></div>
+            ${deal.images && Array.isArray(deal.images) && deal.images.length > 0 ? deal.images.map((img, i) => `
+              <div class="thumbnail ${i === 0 ? 'active' : ''}" style="background-image: url('${img}')" onclick="changeImage(this, '${img}')"></div>
+            `).join('') : `
+              <div class="thumbnail active" style="background-image: url('${deal.imageUrl}')" onclick="changeImage(this, '${deal.imageUrl}')"></div>
+              <div class="thumbnail" style="background-image: url('https://images.unsplash.com/photo-1511385348-a52b4a160dc2?w=500&auto=format')" onclick="changeImage(this, 'https://images.unsplash.com/photo-1511385348-a52b4a160dc2?w=500&auto=format')"></div>
+              <div class="thumbnail" style="background-image: url('https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&auto=format')" onclick="changeImage(this, 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&auto=format')"></div>
+            `}
           </div>
         </div>
         

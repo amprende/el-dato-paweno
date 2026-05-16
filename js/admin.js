@@ -1,3 +1,5 @@
+let uploadedImages = [];
+
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     await dealsLoadedPromise;
@@ -118,6 +120,7 @@ window.handlePublishDeal = async function(e) {
     stock,
     description,
     coupon,
+    images: uploadedImages,
     timestamp: new Date().getTime()
   };
 
@@ -139,6 +142,7 @@ window.handlePublishDeal = async function(e) {
       stock,
       description,
       coupon,
+      images: uploadedImages,
       timestamp: newDeal.timestamp
     };
 
@@ -216,18 +220,42 @@ window.handlePublishDeal = async function(e) {
 }
 
 function handleFileSelect(input) {
-  const file = input.files[0];
-  if (!file) return;
+  const files = input.files;
+  if (!files || files.length === 0) return;
   
-  document.getElementById('file-name').textContent = file.name;
+  const previewsContainer = document.getElementById('image-previews');
+  previewsContainer.innerHTML = ''; // Limpiar anteriores
+  uploadedImages = []; // Reiniciar array
   
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const base64 = e.target.result;
-    document.getElementById('deal-image-url').value = base64;
-    console.log('Imagen cargada como Base64');
-  };
-  reader.readAsDataURL(file);
+  // Limitar a 10
+  const count = Math.min(files.length, 10);
+  document.getElementById('file-name').textContent = `${count} archivos seleccionados`;
+  
+  for (let i = 0; i < count; i++) {
+    const file = files[i];
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+      const base64 = e.target.result;
+      uploadedImages.push(base64);
+      
+      // Mostrar miniatura en el panel
+      const img = document.createElement('img');
+      img.src = base64;
+      img.style.width = '60px';
+      img.style.height = '60px';
+      img.style.objectFit = 'cover';
+      img.style.borderRadius = 'var(--radius-sm)';
+      img.style.border = '1px solid var(--border-color)';
+      previewsContainer.appendChild(img);
+      
+      // Si es la primera, ponerla en el input de URL principal
+      if (i === 0) {
+        document.getElementById('deal-image-url').value = base64;
+      }
+    };
+    reader.readAsDataURL(file);
+  }
 }
 
 function previewImage(url) {

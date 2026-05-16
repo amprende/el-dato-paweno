@@ -101,6 +101,7 @@ window.handlePublishDeal = async function(e) {
   const description = document.getElementById('deal-description').value || '';
   const imageUrl = document.getElementById('deal-image-url').value || 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format';
   const stock = document.getElementById('deal-stock').value ? parseInt(document.getElementById('deal-stock').value) : null;
+  const coupon = document.getElementById('deal-coupon').value || '';
   
   const activeRarityBtn = document.querySelector('.rarity-btn.active');
   const rarity = activeRarityBtn ? activeRarityBtn.dataset.rarity : 'common';
@@ -115,6 +116,8 @@ window.handlePublishDeal = async function(e) {
     url,
     imageUrl,
     stock,
+    description,
+    coupon,
     timestamp: new Date().getTime()
   };
 
@@ -134,6 +137,8 @@ window.handlePublishDeal = async function(e) {
       url,
       imageurl: imageUrl,
       stock,
+      description,
+      coupon,
       timestamp: newDeal.timestamp
     };
 

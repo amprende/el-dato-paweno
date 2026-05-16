@@ -219,16 +219,18 @@
           
           ${deal.stock ? `<p style="color: #ef4444; font-weight: 600; margin-bottom: var(--space-md);"><span class="material-icons" style="font-size: 16px; vertical-align: middle;">timer</span> ¡Solo quedan ${deal.stock} unidades!</p>` : ''}
           
-          <!-- Coupon Code (Mocked) -->
+          <!-- Coupon Code -->
+          ${deal.coupon ? `
           <div class="coupon-box">
             <div>
               <span style="font-size: 0.8rem; color: #92400e; font-weight: 600;">CÓDIGO DE DESCUENTO</span>
-              <div class="coupon-code">OFERTA2026</div>
+              <div class="coupon-code">${deal.coupon}</div>
             </div>
-            <button class="btn-primary" style="padding: 8px 12px; font-size: 0.9rem;" onclick="alert('¡Código copiado!')">
+            <button class="btn-primary" style="padding: 8px 12px; font-size: 0.9rem;" onclick="navigator.clipboard.writeText('${deal.coupon}').then(() => alert('¡Código copiado!'))">
               <span class="material-icons">content_copy</span> Copiar
             </button>
           </div>
+          ` : ''}
           
           <a href="${deal.url}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="width: 100%; justify-content: center; font-size: 1.2rem; padding: 12px;">
             <span class="material-icons">shopping_cart</span> Ir a la Tienda

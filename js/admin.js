@@ -1,7 +1,12 @@
-// ADMIN.JS - PANEL
 document.addEventListener('DOMContentLoaded', async () => {
   await getDealsFromSupabase();
   renderAdminDeals();
+  
+  // Agregar listeners para calcular descuento
+  const originalInput = document.getElementById('deal-original-price');
+  const currentInput = document.getElementById('deal-deal-price');
+  if (originalInput) originalInput.addEventListener('input', calculateDiscount);
+  if (currentInput) currentInput.addEventListener('input', calculateDiscount);
 });
 
 function calculateDiscount() {

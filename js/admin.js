@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function calculateDiscount() {
-  const original = parseFloat(document.getElementById('deal-original-price').value);
-  const current = parseFloat(document.getElementById('deal-deal-price').value);
+  const original = parseFloat(document.getElementById('deal-original-price').value.replace(',', '.'));
+  const current = parseFloat(document.getElementById('deal-deal-price').value.replace(',', '.'));
   
   const discountDisplay = document.getElementById('calculated-discount');
   const rarityAuto = document.getElementById('auto-rarity');
@@ -69,8 +69,8 @@ async function handlePublishDeal(e) {
   // Recoger datos del formulario
   const title = document.getElementById('deal-title').value;
   const category = document.getElementById('deal-category').value;
-  const originalPrice = parseFloat(document.getElementById('deal-original-price').value);
-  const dealPrice = parseFloat(document.getElementById('deal-deal-price').value);
+  const originalPrice = parseFloat(document.getElementById('deal-original-price').value.replace(',', '.'));
+  const dealPrice = parseFloat(document.getElementById('deal-deal-price').value.replace(',', '.'));
   const store = document.getElementById('deal-store').value;
   const url = document.getElementById('deal-url').value;
   const description = document.getElementById('deal-description').value;

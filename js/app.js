@@ -1,5 +1,6 @@
 // APP.JS - HOME PAGE
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await getDealsFromSupabase();
   renderFeaturedDeals();
   updateLastUpdateTime();
 });

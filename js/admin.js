@@ -192,7 +192,7 @@ window.handlePublishDeal = async function(e) {
   };
 
   console.log('Enviando notificación a Google Sheets...');
-  fetch('https://script.google.com/macros/s/AKfycbx53Ry4fUMOs7SciRAHZVnKTT790JiESSNVpXjBU64HGiadw08xjK8KrHt0vs-wHuMuIA/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbwp1Nh4pAanmpNTqUrruhuddPKtiDy3YeeTosav0NVYoLe6Qksc-5fajNlIKsnxjHmtfg/exec', {
     method: 'POST',
     mode: 'no-cors',
     body: JSON.stringify(notifyData)

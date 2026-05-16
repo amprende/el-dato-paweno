@@ -178,7 +178,7 @@ window.handlePublishDeal = async function(e) {
   }
 
   console.log('Enviando notificación a Google Sheets (GET)...');
-  const scriptUrl = `https://script.google.com/macros/s/AKfycbyxCgWKAStaW2gGAYKjeeHoPko3YMmhnkDqL92KdPSpZMNWryStIrN92drSixh7v0NY/exec?notifyEmail=${document.getElementById('notify-email').checked}&title=${encodeURIComponent(title)}&price=${encodeURIComponent(formatCurrency(dealPrice))}&store=${encodeURIComponent(store)}&url=${encodeURIComponent(url)}`;
+  const scriptUrl = `https://script.google.com/macros/s/AKfycbzSKMjIH0LMvpzKvT8godrdjaIpiC_dzCEIWaw_hfTutueeS2Qm53Wr_DBEnZSihXPCPw/exec?notifyEmail=${document.getElementById('notify-email').checked}&title=${encodeURIComponent(title)}&price=${encodeURIComponent(formatCurrency(dealPrice))}&store=${encodeURIComponent(store)}&url=${encodeURIComponent(url)}`;
   
   alert('DEBUG - URL llamada: ' + scriptUrl);
   console.log('URL llamada:', scriptUrl);

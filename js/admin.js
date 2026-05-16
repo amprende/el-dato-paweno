@@ -179,23 +179,12 @@ window.handlePublishDeal = async function(e) {
   renderAdminDeals();
   console.log('DEALS_DATA actualizado y re-renderizado.');
 
-  // Enviar notificaciones via Google Sheets
-  const notifyData = {
-    title,
-    price: formatCurrency(dealPrice),
-    url,
-    rarity,
-    store,
-    action: 'publish_offer',
-    notifyEmail: document.getElementById('notify-email').checked,
-    notifyPhone: document.getElementById('notify-phone').checked
-  };
-
-  console.log('Enviando notificación a Google Sheets...');
-  fetch('https://script.google.com/macros/s/AKfycbwp1Nh4pAanmpNTqUrruhuddPKtiDy3YeeTosav0NVYoLe6Qksc-5fajNlIKsnxjHmtfg/exec', {
-    method: 'POST',
-    mode: 'no-cors',
-    body: JSON.stringify(notifyData)
+  console.log('Enviando notificación a Google Sheets (GET)...');
+  const scriptUrl = `https://script.google.com/macros/s/AKfycbwClFmJIcE9Fra9qb_j-nEGjvb_xgV8rEgrEERlvhTnhN-nglaUsvEvYBLxZaflFH1P/exec?notifyEmail=${document.getElementById('notify-email').checked}&title=${encodeURIComponent(title)}&price=${encodeURIComponent(formatCurrency(dealPrice))}&store=${encodeURIComponent(store)}&url=${encodeURIComponent(url)}`;
+  
+  fetch(scriptUrl, {
+    method: 'GET',
+    mode: 'no-cors'
   })
   .then(() => console.log('Notificación enviada con éxito'))
   .catch(err => console.error('Error al enviar notificación:', err));

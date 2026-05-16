@@ -49,7 +49,7 @@ function renderDeals(deals) {
           <span style="text-decoration: line-through; color: var(--on-surface-variant); font-size: 0.8rem;">${formatCurrency(deal.originalPrice)}</span>
         </div>
         ${deal.stock ? `<p style="color: #ef4444; font-size: 0.8rem; font-weight: 600; margin-top: 4px;"><span class="material-icons" style="font-size: 12px;">timer</span> ¡Solo quedan ${deal.stock} unidades!</p>` : ''}
-        <a href="detalle.html?id=${deal.id}" class="btn-primary" style="width: 100%; justify-content: center; margin-top: var(--space-md); padding: 8px;">Ver Detalles</a>
+        <a href="${deal.url}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="width: 100%; justify-content: center; margin-top: var(--space-md); padding: 8px;">Ir a la Oferta</a>
       </div>
     `;
   }).join('');

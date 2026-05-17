@@ -184,7 +184,7 @@ window.handlePublishDeal = async function(e) {
 
   if (notifyEmail || notifyPhone) {
     console.log('Enviando señal de notificación a Google Sheets...');
-    const scriptUrl = `https://script.google.com/macros/s/AKfycbzO_WF_8k5UlGw3CjM-ZJPOa36PSl5dOXjkhbyxCRaISBzLcudBDGPEvahp6Sm2qHVSnA/exec`;
+    const scriptUrl = `https://script.google.com/macros/s/AKfycbyn9sQi30eOBb1W_Gsqkqk8xXfsKNTbso61rL9tFKYa3-vXlW9iNpb7qcDPQ3qasQDmBA/exec`;
     const payload = {
       notifyEmail: notifyEmail,
       notifyPhone: notifyPhone,

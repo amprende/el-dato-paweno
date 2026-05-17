@@ -178,7 +178,7 @@ window.handlePublishDeal = async function(e) {
   }
 
   console.log('Enviando notificación a Google Sheets (GET)...');
-  const scriptUrl = `https://script.google.com/macros/s/AKfycbwj75nHYkNTV207HCRgJxipEBgIPTPqEPaqsUq9wwdvb0m1nTioUnFrp1Hf83KUUUo3Kg/exec`;
+  const scriptUrl = `https://script.google.com/macros/s/AKfycbwtKRaLlg6it_aNFEeGnkaxqCU4PPpuenZAYgWg_iyhrNveKoHaHXjzCLiiQXcmGRLd8w/exec`;
   
   const payload = {
     notifyEmail: document.getElementById('notify-email').checked,

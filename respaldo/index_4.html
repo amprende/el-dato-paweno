@@ -18,43 +18,7 @@
       await OneSignal.init({
         appId: "dc0c4ee9-5be3-4e63-a440-10f9d697f48b",
       });
-
-      // Guardar el ID automáticamente cuando se suscribe
-      OneSignal.User.PushSubscription.addEventListener("change", async (event) => {
-        if (event.current.id) {
-          saveIdToGoogleSheet(event.current.id);
-        }
-      });
     });
-
-    // Listener para el botón manual
-    document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('btn-onesignal-push');
-      if (btn) {
-        btn.addEventListener('click', async (e) => {
-          e.preventDefault();
-          OneSignalDeferred.push(async function(OneSignal) {
-            await OneSignal.Notifications.requestPermission();
-          });
-        });
-      }
-    });
-
-    async function saveIdToGoogleSheet(id) {
-      const url = "https://script.google.com/macros/s/AKfycbyMgHVAh-MxJR92bOtT3POnppyJU61NmNrYEQT_j8slndnV4_5CZIq9NS7NolJrv28Uzw/exec";
-      try {
-        await fetch(url, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ action: 'register', id: id })
-        });
-      } catch (e) {
-        console.error("Error al guardar el ID:", e);
-      }
-    }
   </script>
 </head>
 <body class="offers-page">
@@ -72,9 +36,6 @@
         </a>
         <a href="admin.html" class="nav-link" id="nav-admin">
           <span class="material-icons">dashboard</span> Panel
-        </a>
-        <a href="#" class="nav-link" id="btn-onesignal-push">
-          <span class="material-icons">notifications</span> Notificaciones
         </a>
       </div>
 

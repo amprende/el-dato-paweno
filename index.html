@@ -75,7 +75,7 @@
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="index.html" class="nav-logo">
+      <a href="index.html" class="nav-logo" id="logo-btn">
         <img src="img/logo.png" alt="Logo" style="height: 40px; width: auto; transform: scale(1.8); transform-origin: left center; margin-right: 25px;">
         <span class="logo-text">Eldato<span style="color: var(--legendary); font-weight: 800;">paweno</span></span>
       </a>
@@ -304,6 +304,80 @@
     </div>
   </footer>
 
+  <!-- OVERLAY para el drawer -->
+  <div class="filter-drawer-overlay" id="filter-drawer-overlay"></div>
+
+  <!-- DRAWER LATERAL DE FILTROS (MÓVIL) -->
+  <div class="filter-drawer" id="filter-drawer">
+    <div class="filter-drawer-header">
+      <span style="font-family: var(--font-headline); font-weight: 800; font-size: 1.1rem;">🔍 Filtros</span>
+      <button class="filter-drawer-close" id="filter-drawer-close">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+    <div class="filter-drawer-body">
+
+      <div class="filter-section">
+        <h3 class="filter-title">Rareza</h3>
+        <div class="filter-options">
+          <label class="filter-check legendary-check">
+            <input type="checkbox" value="legendary" checked onchange="applyFilters()" id="d-filter-legendary">
+            <span class="check-custom"></span>
+            <span class="check-label">👑 Legendary</span>
+          </label>
+          <label class="filter-check epic-check">
+            <input type="checkbox" value="epic" checked onchange="applyFilters()" id="d-filter-epic">
+            <span class="check-custom"></span>
+            <span class="check-label">💎 Epic</span>
+          </label>
+          <label class="filter-check common-check">
+            <input type="checkbox" value="common" checked onchange="applyFilters()" id="d-filter-common">
+            <span class="check-custom"></span>
+            <span class="check-label">🍃 Common</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3 class="filter-title">Categoría</h3>
+        <div class="filter-options">
+          <label class="filter-check"><input type="radio" name="d-category" value="all" checked onchange="applyFilters()"><span class="check-custom radio"></span><span class="check-label">Todas</span></label>
+          <label class="filter-check"><input type="radio" name="d-category" value="electronica" onchange="applyFilters()"><span class="check-custom radio"></span><span class="check-label">💻 Electrónica</span></label>
+          <label class="filter-check"><input type="radio" name="d-category" value="gaming" onchange="applyFilters()"><span class="check-custom radio"></span><span class="check-label">🎮 Gaming</span></label>
+          <label class="filter-check"><input type="radio" name="d-category" value="moda" onchange="applyFilters()"><span class="check-custom radio"></span><span class="check-label">👗 Moda</span></label>
+          <label class="filter-check"><input type="radio" name="d-category" value="hogar" onchange="applyFilters()"><span class="check-custom radio"></span><span class="check-label">🏠 Hogar</span></label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3 class="filter-title">Descuento Mínimo</h3>
+        <div class="range-container">
+          <input type="range" id="d-discount-range" min="0" max="90" value="0" step="10" oninput="updateDiscountFilter(this.value)" class="range-slider">
+          <div class="range-labels">
+            <span>0%</span>
+            <span id="d-range-value" class="range-current">0%+</span>
+            <span>90%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3 class="filter-title">Ordenar por</h3>
+        <select class="filter-select" id="d-sort-select" onchange="applyFilters()">
+          <option value="newest">Más recientes</option>
+          <option value="discount">Mayor descuento</option>
+          <option value="price_asc">Precio: menor a mayor</option>
+          <option value="price_desc">Precio: mayor a menor</option>
+          <option value="popular">Más populares</option>
+        </select>
+      </div>
+
+      <button class="btn-clear-filters" style="width:100%;margin-top:8px;" onclick="clearFilters(); closeFilterDrawer();">
+        <span class="material-icons">filter_alt_off</span> Limpiar Filtros
+      </button>
+    </div>
+  </div>
+
   <!-- MOBILE NAV -->
   <nav class="mobile-nav" id="mobile-nav">
     <a href="index.html" class="mobile-nav-item active" id="mnav-ofertas">
@@ -316,6 +390,31 @@
     </a>
     <div class="onesignal-customlink-container"></div>
   </nav>
+
+  <script>
+    // Drawer de filtros
+    function openFilterDrawer() {
+      document.getElementById('filter-drawer').classList.add('open');
+      document.getElementById('filter-drawer-overlay').classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeFilterDrawer() {
+      document.getElementById('filter-drawer').classList.remove('open');
+      document.getElementById('filter-drawer-overlay').classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      // Solo abrir drawer en móvil al clicar el logo
+      document.getElementById('logo-btn').addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          openFilterDrawer();
+        }
+      });
+      document.getElementById('filter-drawer-close').addEventListener('click', closeFilterDrawer);
+      document.getElementById('filter-drawer-overlay').addEventListener('click', closeFilterDrawer);
+    });
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/data.js"></script>

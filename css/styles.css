@@ -1142,3 +1142,74 @@ a {
 .btn-quitar:active {
   transform: scale(0.95);
 }
+
+/* FILTER DRAWER (MÓVIL) */
+.filter-drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.filter-drawer-overlay.visible {
+  display: block;
+  opacity: 1;
+}
+
+.filter-drawer {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 80%;
+  max-width: 320px;
+  height: 100%;
+  background: var(--surface);
+  z-index: 201;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.18);
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.filter-drawer.open {
+  left: 0;
+}
+
+.filter-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--surface-dim);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+}
+
+.filter-drawer-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  color: var(--on-surface-variant);
+  transition: background 0.2s;
+}
+.filter-drawer-close:hover {
+  background: var(--surface-dim);
+}
+
+.filter-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-md) var(--space-lg);
+}
+
+/* Solo mostrar el drawer en móvil */
+@media (min-width: 769px) {
+  .filter-drawer, .filter-drawer-overlay { display: none !important; }
+}

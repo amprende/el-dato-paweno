@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LootDeals - Panel de Administración</title>
+  <meta name="description" content="Panel de administración de LootDeals. Publica nuevas ofertas y gestiona el contenido de la plataforma.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="admin-page">
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="img/logo.png" alt="Logo" style="height: 40px; width: auto; transform: scale(1.8); transform-origin: left center; margin-right: 25px;">
+        <span class="logo-text">Eldato<span style="color: var(--legendary); font-weight: 800;">paweno</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link" id="nav-ofertas">
+          <span class="material-icons">local_fire_department</span> Ofertas
+        </a>
+        <a href="admin.html" class="nav-link active" id="nav-admin">
+          <span class="material-icons">dashboard</span> Panel
+        </a>
+      </div>
+      <div class="nav-actions">
+        <span class="admin-badge">
+          <span class="material-icons">verified_user</span> Admin
+        </span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header admin-header">
+    <div class="container">
+      <h1 class="page-title"><span class="material-icons">dashboard</span> Panel de Administración</h1>
+      <p class="page-subtitle">Gestiona ofertas, usuarios y estadísticas de la plataforma</p>
+    </div>
+  </div>
+
+  <main class="admin-main">
+    <div class="container">
+
+      <!-- PUBLISH FORM -->
+      <div class="admin-card publish-form-card" style="margin-bottom: var(--space-lg);">
+        <div class="card-header">
+          <h2><span class="material-icons">add_circle</span> Publicar Nueva Oferta</h2>
+        </div>
+        <form class="publish-form" id="publish-form" onsubmit="handlePublishDeal(event)">
+          
+          <!-- RARITY SELECTOR (Moved to top and made prominent) -->
+          <div class="form-group rarity-group">
+            <label>Rareza de la Oferta *</label>
+            <div class="rarity-selector" id="rarity-selector">
+              <button type="button" class="rarity-btn common-btn" data-rarity="common" onclick="selectRarity('common')" id="rbtn-common">
+                🍃 Common (10-40%)
+              </button>
+              <button type="button" class="rarity-btn epic-btn" data-rarity="epic" onclick="selectRarity('epic')" id="rbtn-epic">
+                💎 Epic (40-70%)
+              </button>
+              <button type="button" class="rarity-btn legendary-btn" data-rarity="legendary" onclick="selectRarity('legendary')" id="rbtn-legendary">
+                👑 Legendary (70%+)
+              </button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="deal-title">Nombre del Producto</label>
+              <input type="text" id="deal-title" placeholder="Ej: Laptop ASUS ROG Strix G16">
+            </div>
+            <div class="form-group">
+              <label for="deal-category">Categoría</label>
+              <select id="deal-category">
+                <option value="">Seleccionar categoría</option>
+                <option value="electronica">💻 Electrónica</option>
+                <option value="gaming">🎮 Gaming</option>
+                <option value="moda">👗 Moda</option>
+                <option value="hogar">🏠 Hogar</option>
+                <option value="viajes">✈️ Viajes</option>
+                <option value="alimentacion">🍕 Alimentación</option>
+                <option value="deportes">⚽ Deportes</option>
+                <option value="libros">📚 Libros</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="deal-original-price">Precio Original ($)</label>
+              <input type="text" id="deal-original-price" placeholder="10000">
+            </div>
+            <div class="form-group">
+              <label for="deal-deal-price">Precio Oferta ($)</label>
+              <input type="text" id="deal-deal-price" placeholder="3000">
+            </div>
+            <div class="form-group">
+              <label>Descuento Calculado</label>
+              <div class="discount-display" id="discount-display">
+                <span class="discount-value" id="calculated-discount">—</span>
+                <span class="rarity-auto" id="auto-rarity">Introduce los precios</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="deal-store">Tienda</label>
+              <input type="text" id="deal-store" placeholder="Amazon, El Corte Inglés, FNAC...">
+            </div>
+            <div class="form-group">
+              <label for="deal-url">URL de la Oferta</label>
+              <input type="url" id="deal-url" placeholder="https://...">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="deal-description">Descripción</label>
+            <textarea id="deal-description" rows="3" placeholder="Descripción del producto, especificaciones clave, condiciones de la oferta..."></textarea>
+          </div>
+
+            <div class="form-group">
+              <label for="deal-image-url">Imágenes de la Oferta (Múltiples)</label>
+              <input type="url" id="deal-image-url" placeholder="Pegar URL de imagen principal..." oninput="previewImage(this.value)">
+              <div style="margin-top: 5px;">
+                <label for="deal-image-file" style="display: inline-block; padding: 5px 10px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-sm); cursor: pointer; font-size: 12px;">O subir hasta 10 archivos</label>
+                <input type="file" id="deal-image-file" accept="image/*" style="display: none;" onchange="handleFileSelect(this)" multiple>
+                <span id="file-name" style="font-size: 12px; color: var(--text-secondary); margin-left: 5px;"></span>
+              </div>
+              <div id="image-previews" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
+            </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="deal-stock">Unidades Disponibles</label>
+              <input type="number" id="deal-stock" placeholder="Ej: 5 (dejar vacío si ilimitado)" min="1">
+            </div>
+            <div class="form-group">
+              <label for="deal-coupon">Código de Descuento</label>
+              <input type="text" id="deal-coupon" placeholder="Ej: OFERTA2026">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="deal-expires">Fecha de Expiración (opcional)</label>
+            <input type="datetime-local" id="deal-expires">
+          </div>
+
+          <!-- PREVIEW -->
+          <div class="deal-preview" id="deal-preview">
+            <h4>Vista Previa de la Card</h4>
+            <div class="preview-card" id="preview-card">
+              <div class="preview-placeholder">
+                <span class="material-icons">visibility</span>
+                <p>Rellena el formulario para ver la vista previa</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="display: flex; gap: var(--space-md); align-items: center; margin-bottom: var(--space-md); justify-content: flex-end;">
+            <label style="display: flex; align-items: center; gap: var(--space-xs); cursor: pointer; font-weight: 600;">
+              <label for="notify-email" style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                <input type="checkbox" id="notify-email" style="width: auto; margin: 0;"> Correo
+              </label>
+            </label>
+            <label style="display: flex; align-items: center; gap: var(--space-xs); cursor: pointer; font-weight: 600;">
+              <input type="checkbox" id="notify-phone" style="width: auto; margin: 0;"> Teléfono
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" onclick="resetForm()" id="btn-reset">
+              <span class="material-icons">refresh</span> Limpiar
+            </button>
+            <button type="button" class="btn-primary" id="btn-publish" onclick="console.log('Click en boton detectado'); handlePublishDeal(event)">
+              <span class="material-icons">rocket_launch</span> Publicar Oferta
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+
+
+      <!-- RECENT DEALS TABLE -->
+      <div class="admin-card recent-deals-card">
+        <div class="card-header">
+          <h2><span class="material-icons">list_alt</span> Ofertas Recientes</h2>
+          <input type="text" class="search-input" placeholder="Buscar oferta..." id="admin-search" oninput="filterAdminDeals(this.value)">
+        </div>
+        <div class="recent-deals-list" id="recent-deals-list">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SUCCESS TOAST -->
+  <div class="toast" id="publish-toast">
+    <span class="material-icons">check_circle</span>
+    <span id="toast-message">¡Oferta publicada exitosamente!</span>
+  </div>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html" class="mobile-nav-item" id="mnav-ofertas">
+      <span class="material-icons">local_fire_department</span>
+      <span>Ofertas</span>
+    </a>
+    <a href="admin.html" class="mobile-nav-item active" id="mnav-panel">
+      <span class="material-icons">dashboard</span>
+      <span>Panel</span>
+    </a>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

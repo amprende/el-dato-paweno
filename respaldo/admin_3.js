@@ -177,42 +177,37 @@ window.handlePublishDeal = async function(e) {
     console.log('Guardado en localStorage.');
   }
 
-  const notifyEmail = document.getElementById('notify-email').checked;
-  const notifyPhone = document.getElementById('notify-phone').checked;
+  console.log('Enviando notificación a Google Sheets (GET)...');
+  const scriptUrl = `https://script.google.com/macros/s/AKfycbyl6Y7WGJ5Q5IBh4a-AD2dyF4cCOqC4xUSyFug49-oyGszRDJQ5OVF1_8MdvqOfV523SA/exec`;
   
+  // Construir la URL de detalles de la web
   const detailsUrl = `${window.location.origin}/detalle.html?id=${dealToPush.id}`;
 
-  if (notifyEmail || notifyPhone) {
-    console.log('Enviando señal de notificación a Google Sheets...');
-    const scriptUrl = `https://script.google.com/macros/s/AKfycbxPThoEZaTJMOtSemdixCRfPBCDcbHfK0QPW6BTlVc5hpLYSSwN36M3hUlAhbljAsM3WQ/exec`;
-    const payload = {
-      notifyEmail: notifyEmail,
-      notifyPhone: notifyPhone,
-      title: title,
-      price: formatCurrency(dealPrice),
-      store: store,
-      url: detailsUrl,
-      rarity: rarity,
-      imageUrl: imageUrl
-    };
+  const payload = {
+    notifyEmail: document.getElementById('notify-email').checked,
+    title: title,
+    price: formatCurrency(dealPrice),
+    store: store,
+    url: detailsUrl, // Ahora apunta a la página de detalles
+    rarity: rarity,
+    imageUrl: imageUrl
+  };
 
-    fetch(scriptUrl, {
-      method: 'POST',
-      mode: 'no-cors', // Evita problemas de CORS con Google Scripts
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    })
-    .then(() => {
-      console.log('Petición a Google Sheets enviada con éxito.');
-    })
-    .catch(err => {
-      console.error('Error enviando a Google Sheets:', err);
-    });
-  } else {
-    console.log('Ninguna casilla de notificación seleccionada. Saltando envío a Google.');
-  }
+  console.log('Enviando notificación (POST)...');
+  fetch(scriptUrl, {
+    method: 'POST',
+    mode: 'no-cors', // Evita problemas de CORS con Google Scripts
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
+    console.log('Petición enviada con éxito.');
+  })
+  .catch(err => {
+    console.error('Error enviando notificación (puede ser CORS):', err);
+  });
 
   // Actualizar DEALS_DATA en memoria
   DEALS_DATA.unshift(dealToPush);

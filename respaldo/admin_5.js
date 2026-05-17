@@ -182,9 +182,9 @@ window.handlePublishDeal = async function(e) {
   
   const detailsUrl = `${window.location.origin}/detalle.html?id=${dealToPush.id}`;
 
-  if (notifyEmail || notifyPhone) {
-    console.log('Enviando señal de notificación a Google Sheets...');
-    const scriptUrl = `https://script.google.com/macros/s/AKfycbxPThoEZaTJMOtSemdixCRfPBCDcbHfK0QPW6BTlVc5hpLYSSwN36M3hUlAhbljAsM3WQ/exec`;
+  if (notifyEmail) {
+    console.log('Enviando notificación a Google Sheets (POST)...');
+    const scriptUrl = `https://script.google.com/macros/s/AKfycbyl6Y7WGJ5Q5IBh4a-AD2dyF4cCOqC4xUSyFug49-oyGszRDJQ5OVF1_8MdvqOfV523SA/exec`;
     const payload = {
       notifyEmail: notifyEmail,
       notifyPhone: notifyPhone,
@@ -211,7 +211,29 @@ window.handlePublishDeal = async function(e) {
       console.error('Error enviando a Google Sheets:', err);
     });
   } else {
-    console.log('Ninguna casilla de notificación seleccionada. Saltando envío a Google.');
+    console.log('Casilla "Correo" no seleccionada. Saltando envío a Google.');
+  }
+
+  if (notifyPhone) {
+    console.log('Enviando notificación vía Supabase (Teléfono)...');
+    if (window.supabaseClient) {
+      // Insertamos un registro en una tabla 'notifications'
+      window.supabaseClient
+        .from('notifications')
+        .insert([{
+          type: 'phone_alert',
+          title: title,
+          details: `Oferta en ${store} por ${formatCurrency(dealPrice)}`,
+          url: detailsUrl,
+          status: 'pending'
+        }])
+        .then(({ error }) => {
+          if (error) console.error('Error al registrar notificación en Supabase:', error);
+          else console.log('Notificación registrada en Supabase.');
+        });
+    } else {
+      console.log('Supabase no disponible para enviar notificación de teléfono.');
+    }
   }
 
   // Actualizar DEALS_DATA en memoria

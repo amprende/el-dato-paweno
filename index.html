@@ -61,9 +61,9 @@
             alert("¡Ya estás suscrito! Reenviando tu ID al Excel por si acaso...");
             saveIdToGoogleSheet(id);
           } else {
-            // Llamada directa sin await para mantener el gesto del usuario en iOS
-            OneSignal.Notifications.requestPermission().catch(function(err) {
-              alert("iOS bloqueó la ventana. Asegúrate de abrir esto desde el icono en la Pantalla de Inicio.");
+            // Forzar la aparición del Slidedown configurado en el panel
+            OneSignal.Notifications.showSlidedownPrompt().catch(function(err) {
+              alert("No se pudo abrir la solicitud de notificaciones.");
             });
           }
         });

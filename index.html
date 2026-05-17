@@ -63,8 +63,10 @@
               alert("¡Ya estás suscrito! Reenviando tu ID al Excel por si acaso...");
               saveIdToGoogleSheet(id);
             } else {
-              OneSignal.Notifications.showSlidedownPrompt().catch(function(err) {
-                alert("No se pudo abrir la solicitud de notificaciones.");
+              // Intentamos el permiso nativo directo (aprovechando el clic)
+              OneSignal.Notifications.requestPermission().catch(function(err) {
+                // Si falla o se bloquea, intentamos el cuadro flotante
+                OneSignal.Notifications.showSlidedownPrompt();
               });
             }
           } catch(err) {

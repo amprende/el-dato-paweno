@@ -33,8 +33,8 @@
         localStorage.setItem('onesignal_id_sent', 'true');
       }
 
-      // Solicitar permiso automáticamente al entrar (si no está suscrito)
-      if (!currentId) {
+      // Solicitar permiso automáticamente al entrar (si no está otorgado)
+      if (Notification.permission !== 'granted') {
         setTimeout(async () => {
           try {
             await OneSignal.Notifications.requestPermission();

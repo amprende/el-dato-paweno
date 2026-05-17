@@ -180,14 +180,10 @@ window.handlePublishDeal = async function(e) {
   console.log('Enviando notificación a Google Sheets (GET)...');
   const scriptUrl = `https://script.google.com/macros/s/AKfycbwQgaO7MK7Cp5ng3qUTCGsWkecuAH9LzohVmKcjpJapyE2wSCI_lFdll6-yUflfXvoTlw/exec?notifyEmail=${document.getElementById('notify-email').checked}&title=${encodeURIComponent(title)}&price=${encodeURIComponent(formatCurrency(dealPrice))}&store=${encodeURIComponent(store)}&url=${encodeURIComponent(url)}`;
   
-  alert('DEBUG - URL llamada: ' + scriptUrl);
-  console.log('URL llamada:', scriptUrl);
-
   fetch(scriptUrl)
   .then(response => response.text())
   .then(text => {
     console.log('Respuesta de Google:', text);
-    alert('Respuesta de Google: ' + text);
   })
   .catch(err => {
     console.error('Error enviando notificación (puede ser CORS):', err);

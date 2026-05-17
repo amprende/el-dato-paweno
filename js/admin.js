@@ -230,7 +230,7 @@ window.handlePublishDeal = async function(e) {
   }
 }
 
-function handleFileSelect(input) {
+async function handleFileSelect(input) {
   const files = input.files;
   if (!files || files.length === 0) return;
   
@@ -248,15 +248,28 @@ function handleFileSelect(input) {
   
   for (let i = 0; i < count; i++) {
     const file = files[i];
-    const reader = new FileReader();
+    const filename = `${Date.now()}_${file.name}`;
     
-    reader.onload = function(e) {
-      const base64 = e.target.result;
-      uploadedImages.push(base64);
+    try {
+      console.log('Subiendo imagen a Supabase Storage...');
+      const { data, error } = await window.supabaseClient
+        .storage
+        .from('ofertas')
+        .upload(filename, file);
+        
+      if (error) throw error;
+      
+      const { data: urlData } = window.supabaseClient
+        .storage
+        .from('ofertas')
+        .getPublicUrl(filename);
+        
+      const publicUrl = urlData.publicUrl;
+      uploadedImages.push(publicUrl);
       
       // Mostrar miniatura en el panel
       const img = document.createElement('img');
-      img.src = base64;
+      img.src = publicUrl;
       img.style.width = '60px';
       img.style.height = '60px';
       img.style.objectFit = 'cover';
@@ -266,19 +279,37 @@ function handleFileSelect(input) {
       
       // Si es la primera de todas, ponerla en el input de URL principal
       if (uploadedImages.length === 1) {
-        document.getElementById('deal-image-url').value = base64;
+        document.getElementById('deal-image-url').value = publicUrl;
       }
-    };
-    reader.readAsDataURL(file);
+      
+      console.log('Imagen subida con éxito:', publicUrl);
+    } catch (err) {
+      console.error('Error subiendo imagen:', err);
+      alert('Error al subir la imagen: ' + err.message);
+    }
   }
-}
-
-function previewImage(url) {
-  console.log('URL de imagen actualizada:', url);
 }
 
 window.deleteDeal = async function(id) {
   console.log('deleteDeal llamada con ID:', id);
+
+  // 0. Intentar borrar la imagen de Storage si es de Supabase
+  try {
+    const deal = DEALS_DATA.find(d => d.id == id);
+    const imgUrl = deal ? (deal.imageUrl || deal.imageurl) : null;
+    
+    if (imgUrl && imgUrl.includes('storage/v1/object/public/ofertas/')) {
+      const filename = imgUrl.split('/').pop();
+      console.log('Borrando imagen de Storage:', filename);
+      
+      await window.supabaseClient
+        .storage
+        .from('ofertas')
+        .remove([filename]);
+    }
+  } catch (err) {
+    console.error('Error al intentar borrar la imagen del Storage:', err);
+  }
 
   // 1. Eliminar de Supabase
   if (window.supabaseClient) {

@@ -178,12 +178,29 @@ window.handlePublishDeal = async function(e) {
   }
 
   console.log('Enviando notificación a Google Sheets (GET)...');
-  const scriptUrl = `https://script.google.com/macros/s/AKfycbzmFvzWu8eUOLUJ6iRZBywGIKPRQKSLuRJ-OK_2j7VG_kQBB6aKu31TvBeMvAz-bWH_Kg/exec?notifyEmail=${document.getElementById('notify-email').checked}&title=${encodeURIComponent(title)}&price=${encodeURIComponent(formatCurrency(dealPrice))}&store=${encodeURIComponent(store)}&url=${encodeURIComponent(url)}&rarity=${encodeURIComponent(rarity)}&imageUrl=${encodeURIComponent(imageUrl)}`;
+  const scriptUrl = `https://script.google.com/macros/s/AKfycbzLcCQGm7USw7pKZZxVggFG20yDDi-p0LiD0O-ama1tiK5Z9mypUhbl9oQo_O9cEe4/exec`;
   
-  fetch(scriptUrl)
-  .then(response => response.text())
-  .then(text => {
-    console.log('Respuesta de Google:', text);
+  const payload = {
+    notifyEmail: document.getElementById('notify-email').checked,
+    title: title,
+    price: formatCurrency(dealPrice),
+    store: store,
+    url: url,
+    rarity: rarity,
+    imageUrl: imageUrl
+  };
+
+  console.log('Enviando notificación (POST)...');
+  fetch(scriptUrl, {
+    method: 'POST',
+    mode: 'no-cors', // Evita problemas de CORS con Google Scripts
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
+    console.log('Petición enviada con éxito.');
   })
   .catch(err => {
     console.error('Error enviando notificación (puede ser CORS):', err);

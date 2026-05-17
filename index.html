@@ -25,8 +25,6 @@
         appId: "dc0c4ee9-5be3-4e63-a440-10f9d697f48b",
       });
 
-      alert("¿Soporta Push?: " + OneSignal.Notifications.isPushSupported());
-
       // Guardar el ID automáticamente cuando se suscribe
       OneSignal.User.PushSubscription.addEventListener("change", async (event) => {
         if (event.current.id) {

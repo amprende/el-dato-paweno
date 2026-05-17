@@ -185,6 +185,7 @@ window.handlePublishDeal = async function(e) {
 
   const payload = {
     notifyEmail: document.getElementById('notify-email').checked,
+    notifyPhone: document.getElementById('notify-phone').checked,
     title: title,
     price: formatCurrency(dealPrice),
     store: store,

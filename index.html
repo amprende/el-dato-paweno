@@ -53,18 +53,26 @@
       
       const handlePushClick = (e) => {
         e.preventDefault();
+        alert("Clic detectado en el botón...");
         
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         window.OneSignalDeferred.push(function(OneSignal) {
-          const id = OneSignal.User.PushSubscription.id;
-          if (id) {
-            alert("¡Ya estás suscrito! Reenviando tu ID al Excel por si acaso...");
-            saveIdToGoogleSheet(id);
-          } else {
-            // Forzar la aparición del Slidedown configurado en el panel
-            OneSignal.Notifications.showSlidedownPrompt().catch(function(err) {
-              alert("No se pudo abrir la solicitud de notificaciones.");
-            });
+          try {
+            // Verificación segura de ID
+            const id = OneSignal.User && OneSignal.User.PushSubscription && OneSignal.User.PushSubscription.id;
+            
+            if (id) {
+              alert("¡Ya estás suscrito! Reenviando tu ID al Excel por si acaso...");
+              saveIdToGoogleSheet(id);
+            } else {
+              // Forzar la aparición del Slidedown configurado en el panel
+              OneSignal.Notifications.showSlidedownPrompt().catch(function(err) {
+                alert("No se pudo abrir la solicitud de notificaciones.");
+              });
+            }
+          } catch(err) {
+            alert("Error al conectar con OneSignal. Intenta de nuevo en unos segundos.");
+            console.error(err);
           }
         });
       };

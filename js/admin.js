@@ -178,7 +178,7 @@ window.handlePublishDeal = async function(e) {
   }
 
   console.log('Enviando notificación a Google Sheets (GET)...');
-  const scriptUrl = `https://script.google.com/macros/s/AKfycbxSbMBEeVmIX0WJzRo2wQ8LAoXBQAvlWTnDfl6zqymnFKIAqlaYcAbdkYctsDgw-RyISg/exec?notifyEmail=${document.getElementById('notify-email').checked}&title=${encodeURIComponent(title)}&price=${encodeURIComponent(formatCurrency(dealPrice))}&store=${encodeURIComponent(store)}&url=${encodeURIComponent(url)}&rarity=${encodeURIComponent(rarity)}&imageUrl=${encodeURIComponent(imageUrl)}`;
+  const scriptUrl = `https://script.google.com/macros/s/AKfycbzmFvzWu8eUOLUJ6iRZBywGIKPRQKSLuRJ-OK_2j7VG_kQBB6aKu31TvBeMvAz-bWH_Kg/exec?notifyEmail=${document.getElementById('notify-email').checked}&title=${encodeURIComponent(title)}&price=${encodeURIComponent(formatCurrency(dealPrice))}&store=${encodeURIComponent(store)}&url=${encodeURIComponent(url)}&rarity=${encodeURIComponent(rarity)}&imageUrl=${encodeURIComponent(imageUrl)}`;
   
   fetch(scriptUrl)
   .then(response => response.text())

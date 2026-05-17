@@ -46,46 +46,7 @@
       }
     });
 
-    // Listener para el botón manual (PC y Móvil)
-    document.addEventListener('DOMContentLoaded', () => {
-      const btnPc = document.getElementById('btn-onesignal-push');
-      const btnMob = document.getElementById('mnav-notif');
-      
-      const handlePushClick = (e) => {
-        e.preventDefault();
-        
-        const action = function(OneSignal) {
-          try {
-            const id = OneSignal.User && OneSignal.User.PushSubscription && OneSignal.User.PushSubscription.id;
-            
-            if (id) {
-              alert("¡Ya estás suscrito! Reenviando tu ID al Excel por si acaso...");
-              saveIdToGoogleSheet(id);
-            } else {
-              // Intentamos el permiso nativo directo (aprovechando el clic)
-              OneSignal.Notifications.requestPermission().catch(function(err) {
-                // Si falla o se bloquea, intentamos el cuadro flotante
-                OneSignal.Notifications.showSlidedownPrompt();
-              });
-            }
-          } catch(err) {
-            alert("Error al conectar con OneSignal.");
-          }
-        };
 
-        // Si OneSignal ya cargó, lo ejecutamos directo
-        if (window.OneSignal && window.OneSignal.Notifications) {
-          action(window.OneSignal);
-        } else {
-          // Si no, lo mandamos a la fila de espera
-          window.OneSignalDeferred = window.OneSignalDeferred || [];
-          window.OneSignalDeferred.push(action);
-        }
-      };
-
-      if (btnPc) btnPc.addEventListener('click', handlePushClick);
-      if (btnMob) btnMob.addEventListener('click', handlePushClick);
-    });
 
     async function saveIdToGoogleSheet(id) {
       const url = "https://script.google.com/macros/s/AKfycbxNakHN6jYVrKyRrScwaD-xVhzLBf2PhDQQJvlD3U9T-Ap-CHog3usJdN5tU05EP1LgbA/exec";
@@ -120,9 +81,7 @@
         <a href="admin.html" class="nav-link" id="nav-admin">
           <span class="material-icons">dashboard</span> Panel
         </a>
-        <a href="#" class="nav-link" id="btn-onesignal-push">
-          <span class="material-icons">notifications</span> Notificaciones
-        </a>
+        <div class="onesignal-customlink-container"></div>
       </div>
 
     </div>
@@ -350,10 +309,7 @@
       <span class="material-icons">dashboard</span>
       <span>Panel</span>
     </a>
-    <a href="#" class="mobile-nav-item" id="mnav-notif">
-      <span class="material-icons">notifications</span>
-      <span>Alertas</span>
-    </a>
+    <div class="onesignal-customlink-container"></div>
   </nav>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

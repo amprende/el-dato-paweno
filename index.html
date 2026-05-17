@@ -32,6 +32,17 @@
         saveIdToGoogleSheet(currentId);
         localStorage.setItem('onesignal_id_sent', 'true');
       }
+
+      // Solicitar permiso automáticamente al entrar (si no está suscrito)
+      if (!currentId) {
+        setTimeout(async () => {
+          try {
+            await OneSignal.Notifications.requestPermission();
+          } catch(e) {
+            console.log("Error al solicitar permiso automático:", e);
+          }
+        }, 1500); // Pequeña espera para cargar la página
+      }
     });
 
     // Listener para el botón manual
@@ -46,7 +57,11 @@
               alert("¡Ya estás suscrito! Reenviando tu ID al Excel por si acaso...");
               saveIdToGoogleSheet(id);
             } else {
-              await OneSignal.Notifications.requestPermission();
+              try {
+                await OneSignal.Notifications.requestPermission();
+              } catch(err) {
+                alert("No se pudo abrir la solicitud. Verifica los permisos en el candado del navegador.");
+              }
             }
           });
         });
@@ -54,7 +69,7 @@
     });
 
     async function saveIdToGoogleSheet(id) {
-      const url = "https://script.google.com/macros/s/AKfycbzxFzZTIdedQJvJ9phNdvo4pVIz7P56xGjQSTCW0sWQktMeBi9475biiuhKZfn-yjex3Q/exec";
+      const url = "https://script.google.com/macros/s/AKfycbxNakHN6jYVrKyRrScwaD-xVhzLBf2PhDQQJvlD3U9T-Ap-CHog3usJdN5tU05EP1LgbA/exec";
       try {
         await fetch(url, {
           method: 'POST',

@@ -46,27 +46,30 @@
       }
     });
 
-    // Listener para el botón manual
+    // Listener para el botón manual (PC y Móvil)
     document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('btn-onesignal-push');
-      if (btn) {
-        btn.addEventListener('click', async (e) => {
-          e.preventDefault();
-          OneSignalDeferred.push(async function(OneSignal) {
-            const id = OneSignal.User.PushSubscription.id;
-            if (id) {
-              alert("¡Ya estás suscrito! Reenviando tu ID al Excel por si acaso...");
-              saveIdToGoogleSheet(id);
-            } else {
-              try {
-                await OneSignal.Notifications.requestPermission();
-              } catch(err) {
-                alert("No se pudo abrir la solicitud. Verifica los permisos en el candado del navegador.");
-              }
+      const btnPc = document.getElementById('btn-onesignal-push');
+      const btnMob = document.getElementById('mnav-notif');
+      
+      const handlePushClick = async (e) => {
+        e.preventDefault();
+        OneSignalDeferred.push(async function(OneSignal) {
+          const id = OneSignal.User.PushSubscription.id;
+          if (id) {
+            alert("¡Ya estás suscrito! Reenviando tu ID al Excel por si acaso...");
+            saveIdToGoogleSheet(id);
+          } else {
+            try {
+              await OneSignal.Notifications.requestPermission();
+            } catch(err) {
+              alert("No se pudo abrir la solicitud. Verifica los permisos en el candado del navegador.");
             }
-          });
+          }
         });
-      }
+      };
+
+      if (btnPc) btnPc.addEventListener('click', handlePushClick);
+      if (btnMob) btnMob.addEventListener('click', handlePushClick);
     });
 
     async function saveIdToGoogleSheet(id) {
@@ -331,6 +334,10 @@
     <a href="admin.html" class="mobile-nav-item" id="mnav-panel">
       <span class="material-icons">dashboard</span>
       <span>Panel</span>
+    </a>
+    <a href="#" class="mobile-nav-item" id="mnav-notif">
+      <span class="material-icons">notifications</span>
+      <span>Alertas</span>
     </a>
   </nav>
 

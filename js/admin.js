@@ -178,7 +178,7 @@ window.handlePublishDeal = async function(e) {
   }
 
   console.log('Enviando notificación a Google Sheets (GET)...');
-  const scriptUrl = `https://script.google.com/macros/s/AKfycbyNS_bN1BKtydocPlbJanMMbtjWRgTSa1OOieVD7WaRTmk7boUbyt8fEFf_CXNQm2vcVw/exec`;
+  const scriptUrl = `https://script.google.com/macros/s/AKfycbx2GaZWK1Wl0qTGG4C80cLSd1YpyAUmZL6F3FgXGIoBBGYBj92YM5d6EBQ6SxDJo2x8ww/exec`;
   
   // Construir la URL de detalles de la web
   const detailsUrl = `${window.location.origin}/detalle.html?id=${dealToPush.id}`;

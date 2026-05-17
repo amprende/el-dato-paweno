@@ -25,6 +25,13 @@
           saveIdToGoogleSheet(event.current.id);
         }
       });
+
+      // Si ya está suscrito y no se ha enviado, enviarlo
+      const currentId = OneSignal.User.PushSubscription.id;
+      if (currentId && !localStorage.getItem('onesignal_id_sent')) {
+        saveIdToGoogleSheet(currentId);
+        localStorage.setItem('onesignal_id_sent', 'true');
+      }
     });
 
     // Listener para el botón manual
@@ -34,7 +41,13 @@
         btn.addEventListener('click', async (e) => {
           e.preventDefault();
           OneSignalDeferred.push(async function(OneSignal) {
-            await OneSignal.Notifications.requestPermission();
+            const id = OneSignal.User.PushSubscription.id;
+            if (id) {
+              alert("¡Ya estás suscrito! Reenviando tu ID al Excel por si acaso...");
+              saveIdToGoogleSheet(id);
+            } else {
+              await OneSignal.Notifications.requestPermission();
+            }
           });
         });
       }

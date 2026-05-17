@@ -1213,3 +1213,24 @@ a {
 @media (min-width: 769px) {
   .filter-drawer, .filter-drawer-overlay { display: none !important; }
 }
+
+/* Ocultar sidebar original en móvil */
+@media (max-width: 768px) {
+  .filters-sidebar {
+    display: none !important;
+  }
+  /* Indicar visualmente que el logo es interactivo */
+  #logo-btn {
+    cursor: pointer;
+    position: relative;
+  }
+  #logo-btn::after {
+    content: '⚙️';
+    font-size: 0.7rem;
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.7;
+  }
+}

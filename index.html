@@ -51,25 +51,22 @@
       const btnPc = document.getElementById('btn-onesignal-push');
       const btnMob = document.getElementById('mnav-notif');
       
-      const handlePushClick = async (e) => {
+      const handlePushClick = (e) => {
         e.preventDefault();
         
-        if (window.OneSignal) {
-          const id = window.OneSignal.User.PushSubscription.id;
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        window.OneSignalDeferred.push(function(OneSignal) {
+          const id = OneSignal.User.PushSubscription.id;
           if (id) {
             alert("¡Ya estás suscrito! Reenviando tu ID al Excel por si acaso...");
             saveIdToGoogleSheet(id);
           } else {
-            try {
-              // Se llama directo para no perder el 'user gesture' en iOS
-              await window.OneSignal.Notifications.requestPermission();
-            } catch(err) {
+            // Llamada directa sin await para mantener el gesto del usuario en iOS
+            OneSignal.Notifications.requestPermission().catch(function(err) {
               alert("iOS bloqueó la ventana. Asegúrate de abrir esto desde el icono en la Pantalla de Inicio.");
-            }
+            });
           }
-        } else {
-          alert("El sistema de notificaciones aún está cargando. Espera 1 segundo.");
-        }
+        });
       };
 
       if (btnPc) btnPc.addEventListener('click', handlePushClick);

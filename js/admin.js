@@ -177,42 +177,38 @@ window.handlePublishDeal = async function(e) {
     console.log('Guardado en localStorage.');
   }
 
-  const notifyEmail = document.getElementById('notify-email').checked;
-  const notifyPhone = document.getElementById('notify-phone').checked;
+  console.log('Enviando notificación a Google Sheets (GET)...');
+  const scriptUrl = `https://script.google.com/macros/s/AKfycbyNS_bN1BKtydocPlbJanMMbtjWRgTSa1OOieVD7WaRTmk7boUbyt8fEFf_CXNQm2vcVw/exec`;
   
+  // Construir la URL de detalles de la web
   const detailsUrl = `${window.location.origin}/detalle.html?id=${dealToPush.id}`;
 
-  if (notifyEmail || notifyPhone) {
-    console.log('Enviando señal de notificación a Google Sheets...');
-    const scriptUrl = `https://script.google.com/macros/s/AKfycbzxFzZTIdedQJvJ9phNdvo4pVIz7P56xGjQSTCW0sWQktMeBi9475biiuhKZfn-yjex3Q/exec`;
-    const payload = {
-      notifyEmail: notifyEmail,
-      notifyPhone: notifyPhone,
-      title: title,
-      price: formatCurrency(dealPrice),
-      store: store,
-      url: detailsUrl,
-      rarity: rarity,
-      imageUrl: imageUrl
-    };
+  const payload = {
+    notifyEmail: document.getElementById('notify-email').checked,
+    notifyPhone: document.getElementById('notify-phone').checked,
+    title: title,
+    price: formatCurrency(dealPrice),
+    store: store,
+    url: detailsUrl,
+    rarity: rarity,
+    imageUrl: imageUrl
+  };
 
-    fetch(scriptUrl, {
-      method: 'POST',
-      mode: 'no-cors', // Evita problemas de CORS con Google Scripts
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    })
-    .then(() => {
-      console.log('Petición a Google Sheets enviada con éxito.');
-    })
-    .catch(err => {
-      console.error('Error enviando a Google Sheets:', err);
-    });
-  } else {
-    console.log('Ninguna casilla de notificación seleccionada. Saltando envío a Google.');
-  }
+  console.log('Enviando notificación (POST)...');
+  fetch(scriptUrl, {
+    method: 'POST',
+    mode: 'no-cors', // Evita problemas de CORS con Google Scripts
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
+    console.log('Petición enviada con éxito.');
+  })
+  .catch(err => {
+    console.error('Error enviando notificación (puede ser CORS):', err);
+  });
 
   // Actualizar DEALS_DATA en memoria
   DEALS_DATA.unshift(dealToPush);

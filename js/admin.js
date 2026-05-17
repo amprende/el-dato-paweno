@@ -180,12 +180,15 @@ window.handlePublishDeal = async function(e) {
   console.log('Enviando notificación a Google Sheets (GET)...');
   const scriptUrl = `https://script.google.com/macros/s/AKfycbyl6Y7WGJ5Q5IBh4a-AD2dyF4cCOqC4xUSyFug49-oyGszRDJQ5OVF1_8MdvqOfV523SA/exec`;
   
+  // Construir la URL de detalles de la web
+  const detailsUrl = `${window.location.origin}/detalle.html?id=${dealToPush.id}`;
+
   const payload = {
     notifyEmail: document.getElementById('notify-email').checked,
     title: title,
     price: formatCurrency(dealPrice),
     store: store,
-    url: url,
+    url: detailsUrl, // Ahora apunta a la página de detalles
     rarity: rarity,
     imageUrl: imageUrl
   };

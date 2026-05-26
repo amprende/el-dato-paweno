@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalles de la Oferta - LootDeals</title>
-  <meta name="description" content="Detalles de la oferta en LootDeals.">
+  <title>Eldatopaweno - Detalles de la Oferta</title>
+  <meta name="description" content="Detalles de la oferta en Eldatopaweno.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/png" href="img/logo.png">
   <style>
     .details-container {
       display: grid;
@@ -125,9 +126,8 @@
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="index.html" class="nav-logo">
-        <img src="img/logo.png" alt="Logo" style="height: 40px; width: auto; transform: scale(1.8); transform-origin: left center; margin-right: 25px;">
-        <span class="logo-text">Eldato<span style="color: var(--legendary); font-weight: 800;">paweno</span></span>
+      <a href="index.html" class="nav-logo" id="logo-btn">
+        <img src="img/logo_frames/frame_1.png" alt="Logo" id="animated-logo" style="height: 80px; width: auto; margin-top: -16px; margin-bottom: -16px; margin-right: 15px;">
       </a>
       <div class="nav-links">
         <a href="index.html" class="nav-link" id="nav-ofertas">
@@ -157,6 +157,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/data.js"></script>
+  <script src="js/logo-animado.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       await dealsLoadedPromise;

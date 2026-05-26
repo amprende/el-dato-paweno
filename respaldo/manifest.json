@@ -1,0 +1,22 @@
+{
+  "name": "Eldatopaweno",
+  "short_name": "EldatoPaweno",
+  "description": "Muro de ofertas clasificadas por rareza",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a1a",
+  "theme_color": "#f5a623",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "img/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

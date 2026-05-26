@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eldatopaweno - Muro de Ofertas</title>
+  <meta name="description" content="Todas las ofertas clasificadas por rareza: Common, Epic y Legendary. Filtra por categoría, descuento y más.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/png" href="img/logo.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="EldatoPaweno">
+  <link rel="apple-touch-icon" href="img/logo.png">
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({
+        appId: "dc0c4ee9-5be3-4e63-a440-10f9d697f48b",
+      });
+
+      // Guardar el ID automáticamente cuando se suscribe
+      OneSignal.User.PushSubscription.addEventListener("change", async (event) => {
+        if (event.current.id) {
+          saveIdToGoogleSheet(event.current.id);
+        }
+      });
+
+      // Si ya está suscrito y no se ha enviado, enviarlo
+      const currentId = OneSignal.User.PushSubscription.id;
+      if (currentId && !localStorage.getItem('onesignal_id_sent')) {
+        saveIdToGoogleSheet(currentId);
+        localStorage.setItem('onesignal_id_sent', 'true');
+      }
+
+      // Solicitar permiso automáticamente al entrar (si no está otorgado)
+      if (Notification.permission !== 'granted') {
+        setTimeout(async () => {
+          try {
+            await OneSignal.Notifications.requestPermission();
+          } catch(e) {
+            console.log("Error al solicitar permiso automático:", e);
+          }
+        }, 1500); // Pequeña espera para cargar la página
+      }
+    });
+
+
+
+    async function saveIdToGoogleSheet(id) {
+      const url = "https://script.google.com/macros/s/AKfycbxNakHN6jYVrKyRrScwaD-xVhzLBf2PhDQQJvlD3U9T-Ap-CHog3usJdN5tU05EP1LgbA/exec";
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ action: 'register', id: id })
+        });
+      } catch (e) {
+        console.error("Error al guardar el ID:", e);
+      }
+    }
+  </script>
+</head>
+<body class="offers-page">
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo" id="logo-btn">
+        <img src="img/logo.png" alt="Logo" style="height: 40px; width: auto; transform: scale(1.8); transform-origin: left center; margin-right: 25px;">
+        <span class="logo-text">Eldato<span style="color: var(--legendary); font-weight: 800;">paweno</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link active" id="nav-ofertas">
+          <span class="material-icons">local_fire_department</span> Ofertas
+        </a>
+        <a href="admin.html" class="nav-link" id="nav-admin">
+          <span class="material-icons">dashboard</span> Panel
+        </a>
+        <div class="onesignal-customlink-container"></div>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="offers-main">
+    <div class="container">
+      <div class="offers-layout">
+
+        <!-- SIDEBAR FILTERS -->
+        <aside class="filters-sidebar" id="filters-sidebar">
+          <div class="filter-section">
+            <h3 class="filter-title">Rareza</h3>
+            <div class="filter-options">
+              <label class="filter-check legendary-check" id="filter-legendary">
+                <input type="checkbox" value="legendary" checked onchange="applyFilters()">
+                <span class="check-custom"></span>
+                <span class="check-label">👑 Legendary</span>
+                <span class="check-count">23</span>
+              </label>
+              <label class="filter-check epic-check" id="filter-epic">
+                <input type="checkbox" value="epic" checked onchange="applyFilters()">
+                <span class="check-custom"></span>
+                <span class="check-label">💎 Epic</span>
+                <span class="check-count">89</span>
+              </label>
+              <label class="filter-check common-check" id="filter-common">
+                <input type="checkbox" value="common" checked onchange="applyFilters()">
+                <span class="check-custom"></span>
+                <span class="check-label">🍃 Common</span>
+                <span class="check-count">735</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-title">Categoría</h3>
+            <div class="filter-options">
+              <label class="filter-check" id="fcat-all">
+                <input type="radio" name="category" value="all" checked onchange="applyFilters()">
+                <span class="check-custom radio"></span>
+                <span class="check-label">Todas</span>
+              </label>
+              <label class="filter-check" id="fcat-electronica">
+                <input type="radio" name="category" value="electronica" onchange="applyFilters()">
+                <span class="check-custom radio"></span>
+                <span class="check-label">💻 Electrónica</span>
+              </label>
+              <label class="filter-check" id="fcat-gaming">
+                <input type="radio" name="category" value="gaming" onchange="applyFilters()">
+                <span class="check-custom radio"></span>
+                <span class="check-label">🎮 Gaming</span>
+              </label>
+              <label class="filter-check" id="fcat-moda">
+                <input type="radio" name="category" value="moda" onchange="applyFilters()">
+                <span class="check-custom radio"></span>
+                <span class="check-label">👗 Moda</span>
+              </label>
+              <label class="filter-check" id="fcat-hogar">
+                <input type="radio" name="category" value="hogar" onchange="applyFilters()">
+                <span class="check-custom radio"></span>
+                <span class="check-label">🏠 Hogar</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-title">Descuento Mínimo</h3>
+            <div class="range-container">
+              <input type="range" id="discount-range" min="0" max="90" value="0" step="10" oninput="updateDiscountFilter(this.value)" class="range-slider">
+              <div class="range-labels">
+                <span>0%</span>
+                <span id="range-value" class="range-current">0%+</span>
+                <span>90%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-title">Ordenar por</h3>
+            <select class="filter-select" id="sort-select" onchange="applyFilters()">
+              <option value="newest">Más recientes</option>
+              <option value="discount">Mayor descuento</option>
+              <option value="price_asc">Precio: menor a mayor</option>
+              <option value="price_desc">Precio: mayor a menor</option>
+              <option value="popular">Más populares</option>
+            </select>
+          </div>
+
+          <button class="btn-clear-filters" id="btn-clear-filters" onclick="clearFilters()">
+            <span class="material-icons">filter_alt_off</span> Limpiar Filtros
+          </button>
+        </aside>
+
+        <!-- DEALS WALL -->
+        <div class="deals-wall">
+          <!-- Category Chips -->
+          <div class="category-chips" id="category-chips">
+            <button class="chip chip-active" data-cat="all" onclick="selectChip(this)" id="chip-all">Todas</button>
+            <button class="chip" data-cat="electronica" onclick="selectChip(this)" id="chip-electronica">💻 Electrónica</button>
+            <button class="chip" data-cat="gaming" onclick="selectChip(this)" id="chip-gaming">🎮 Gaming</button>
+            <button class="chip" data-cat="moda" onclick="selectChip(this)" id="chip-moda">👗 Moda</button>
+            <button class="chip" data-cat="hogar" onclick="selectChip(this)" id="chip-hogar">🏠 Hogar</button>
+            <button class="chip" data-cat="viajes" onclick="selectChip(this)" id="chip-viajes">✈️ Viajes</button>
+            <button class="chip" data-cat="deportes" onclick="selectChip(this)" id="chip-deportes">⚽ Deportes</button>
+          </div>
+
+          <!-- Subscribe Bar (visible to non-subscribers) -->
+          <div class="subscribe-bar" id="subscribe-bar">
+            <div class="subscribe-bar-content">
+              <span class="material-icons">notifications_active</span>
+              <span>Activa tus alertas</span>
+              <button class="btn-subscribe-inline" onclick="document.getElementById('subscribe-modal').scrollIntoView({behavior: 'smooth'})" id="btn-subscribe-bar">Activar Alertas</button>
+              <button class="close-bar" onclick="closeSubscribeBar()" id="btn-close-bar">✕</button>
+            </div>
+          </div>
+
+          <!-- Active Filters Display -->
+          <div class="active-filters" id="active-filters"></div>
+
+          <!-- Results count -->
+          <div class="results-header">
+            <span id="results-count">Cargando ofertas...</span>
+            <div class="view-toggles">
+              <button class="view-btn active" id="btn-grid-view" onclick="setView('grid')">
+                <span class="material-icons">grid_view</span>
+              </button>
+              <button class="view-btn" id="btn-list-view" onclick="setView('list')">
+                <span class="material-icons">view_list</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Deals Grid -->
+          <div class="deals-grid grid-view" id="deals-grid">
+            <!-- Cards rendered by JS -->
+          </div>
+
+          <!-- Load More -->
+          <div class="load-more-container">
+            <button class="btn-load-more" id="btn-load-more" onclick="loadMore()">
+              <span class="material-icons">expand_more</span> Cargar más ofertas
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SUBSCRIBE MODAL -->
+  <div class="modal-overlay" id="subscribe-modal" onclick="closeModal(event)">
+    <div class="modal" id="modal-content">
+
+      <div class="modal-icon" style="text-align: center; font-size: 3rem;">🔔</div>
+      <h2 class="modal-title" style="font-size: 2.2rem; font-weight: 800; background: linear-gradient(135deg, #FFB800 0%, #FF8A00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: var(--font-headline); text-align: center;">Activa tus alertas</h2>
+      <p class="modal-subtitle" style="text-align: center; margin-bottom: var(--space-md);">Recibe notificaciones instantáneas de ofertas Epic y Legendary. El primero en llegar, el primero en ahorrar.</p>
+      <form onsubmit="handleSubscribeModal(event)" id="modal-form">
+        <div class="form-group" style="max-width: 80%; margin: 0 auto var(--space-md) auto;">
+          <label for="modal-email">Email</label>
+          <div style="display: flex; gap: var(--space-sm);">
+            <input type="email" id="modal-email" placeholder="tucorreo@ejemplo.com" style="flex: 1;">
+            <button type="submit" class="btn-primary" style="padding: 10px 15px; white-space: nowrap; background: linear-gradient(135deg, #985CF8 0%, #E056FD 100%); border: none; font-weight: 600; border-radius: 8px; cursor: pointer;">Activar Alertas</button>
+          </div>
+        </div>
+        <div class="form-group" style="max-width: 80%; margin: 0 auto var(--space-md) auto;">
+          <label for="modal-phone">WhatsApp</label>
+          <div style="display: flex; gap: var(--space-sm);">
+            <div style="display: flex; flex: 1;">
+              <select id="country-code" style="width: 100px; padding: 10px; border-radius: 8px 0 0 8px; border: 1px solid #ccc; background: #fff; font-family: inherit; font-size: 0.9rem; border-right: none;">
+                <option value="+56">🇨🇱 +56</option>
+                <option value="+54">🇦🇷 +54</option>
+                <option value="+51">🇵🇪 +51</option>
+                <option value="+57">🇨🇴 +57</option>
+                <option value="+52">🇲🇽 +52</option>
+                <option value="+34">🇪🇸 +34</option>
+                <option value="+1">🇺🇸 +1</option>
+              </select>
+              <div style="position: relative; flex: 1;">
+                <i class="fab fa-whatsapp" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #25D366; font-size: 1.3rem;"></i>
+                <input type="tel" id="modal-phone" placeholder="9 1234 5678" oninput="this.value = this.value.replace(/[^0-9 ]/g, '')" style="padding-left: 38px; width: 100%; border-radius: 0 8px 8px 0; border: 1px solid #ccc;">
+              </div>
+            </div>
+            <button type="submit" class="btn-primary" style="padding: 10px 15px; white-space: nowrap; background: linear-gradient(135deg, #985CF8 0%, #E056FD 100%); border: none; font-weight: 600; border-radius: 8px; cursor: pointer;">Activar Alertas</button>
+          </div>
+        </div>
+        <div class="form-group" style="max-width: 80%; margin: 0 auto;">
+          <label style="display: block; text-align: center;">Notificarme sobre:</label>
+          <div class="modal-checks" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+            <label class="modal-check">
+              <input type="checkbox" checked id="notif-legendary"> 👑 Ofertas Legendary
+            </label>
+            <label class="modal-check">
+              <input type="checkbox" checked id="notif-epic"> 💎 Ofertas Epic
+            </label>
+            <label class="modal-check">
+              <input type="checkbox" id="notif-common"> 🍃 Ofertas Common
+            </label>
+          </div>
+        </div>
+      </form>
+      <p class="modal-disclaimer" style="text-align: center; margin-top: var(--space-md);">Sin spam. Cancela cuando quieras.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer" style="padding: var(--space-xl) 0; background: var(--surface-dim); text-align: center; margin-top: var(--space-xl); margin-bottom: 80px;">
+    <div class="footer-container">
+      <div class="footer-links" style="margin-bottom: var(--space-sm);">
+        <a href="#" style="color: var(--on-surface-variant); text-decoration: none; margin: 0 var(--space-md); font-weight: 500;">📚 Documentación</a>
+        <a href="#" style="color: var(--on-surface-variant); text-decoration: none; margin: 0 var(--space-md); font-weight: 500;">⚖️ Términos</a>
+        <a href="#" style="color: var(--on-surface-variant); text-decoration: none; margin: 0 var(--space-md); font-weight: 500;">🔒 Privacidad</a>
+      </div>
+      <p style="color: var(--on-surface-variant); font-size: 0.9rem;">&copy; 2026 Eldatopaweno. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- OVERLAY para el drawer -->
+  <div class="filter-drawer-overlay" id="filter-drawer-overlay"></div>
+
+  <!-- DRAWER LATERAL DE FILTROS (MÓVIL) -->
+  <div class="filter-drawer" id="filter-drawer">
+    <div class="filter-drawer-header">
+      <span style="font-family: var(--font-headline); font-weight: 800; font-size: 1.1rem;">🔍 Filtros</span>
+      <button class="filter-drawer-close" id="filter-drawer-close">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+    <div class="filter-drawer-body">
+
+      <div class="filter-section">
+        <h3 class="filter-title">Rareza</h3>
+        <div class="filter-options">
+          <label class="filter-check legendary-check">
+            <input type="checkbox" value="legendary" checked onchange="applyFilters()" id="d-filter-legendary">
+            <span class="check-custom"></span>
+            <span class="check-label">👑 Legendary</span>
+          </label>
+          <label class="filter-check epic-check">
+            <input type="checkbox" value="epic" checked onchange="applyFilters()" id="d-filter-epic">
+            <span class="check-custom"></span>
+            <span class="check-label">💎 Epic</span>
+          </label>
+          <label class="filter-check common-check">
+            <input type="checkbox" value="common" checked onchange="applyFilters()" id="d-filter-common">
+            <span class="check-custom"></span>
+            <span class="check-label">🍃 Common</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3 class="filter-title">Categoría</h3>
+        <div class="filter-options">
+          <label class="filter-check"><input type="radio" name="d-category" value="all" checked onchange="applyFilters()"><span class="check-custom radio"></span><span class="check-label">Todas</span></label>
+          <label class="filter-check"><input type="radio" name="d-category" value="electronica" onchange="applyFilters()"><span class="check-custom radio"></span><span class="check-label">💻 Electrónica</span></label>
+          <label class="filter-check"><input type="radio" name="d-category" value="gaming" onchange="applyFilters()"><span class="check-custom radio"></span><span class="check-label">🎮 Gaming</span></label>
+          <label class="filter-check"><input type="radio" name="d-category" value="moda" onchange="applyFilters()"><span class="check-custom radio"></span><span class="check-label">👗 Moda</span></label>
+          <label class="filter-check"><input type="radio" name="d-category" value="hogar" onchange="applyFilters()"><span class="check-custom radio"></span><span class="check-label">🏠 Hogar</span></label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3 class="filter-title">Descuento Mínimo</h3>
+        <div class="range-container">
+          <input type="range" id="d-discount-range" min="0" max="90" value="0" step="10" oninput="updateDiscountFilter(this.value)" class="range-slider">
+          <div class="range-labels">
+            <span>0%</span>
+            <span id="d-range-value" class="range-current">0%+</span>
+            <span>90%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3 class="filter-title">Ordenar por</h3>
+        <select class="filter-select" id="d-sort-select" onchange="applyFilters()">
+          <option value="newest">Más recientes</option>
+          <option value="discount">Mayor descuento</option>
+          <option value="price_asc">Precio: menor a mayor</option>
+          <option value="price_desc">Precio: mayor a menor</option>
+          <option value="popular">Más populares</option>
+        </select>
+      </div>
+
+      <button class="btn-clear-filters" style="width:100%;margin-top:8px;" onclick="clearFilters(); closeFilterDrawer();">
+        <span class="material-icons">filter_alt_off</span> Limpiar Filtros
+      </button>
+    </div>
+  </div>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html" class="mobile-nav-item active" id="mnav-ofertas">
+      <span class="material-icons">local_fire_department</span>
+      <span>Ofertas</span>
+    </a>
+    <a href="admin.html" class="mobile-nav-item" id="mnav-panel">
+      <span class="material-icons">dashboard</span>
+      <span>Panel</span>
+    </a>
+    <div class="onesignal-customlink-container"></div>
+  </nav>
+
+  <script>
+    // Drawer de filtros
+    function openFilterDrawer() {
+      document.getElementById('filter-drawer').classList.add('open');
+      document.getElementById('filter-drawer-overlay').classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeFilterDrawer() {
+      document.getElementById('filter-drawer').classList.remove('open');
+      document.getElementById('filter-drawer-overlay').classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      // Solo abrir drawer en móvil al clicar el logo
+      document.getElementById('logo-btn').addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          openFilterDrawer();
+        }
+      });
+      document.getElementById('filter-drawer-close').addEventListener('click', closeFilterDrawer);
+      document.getElementById('filter-drawer-overlay').addEventListener('click', closeFilterDrawer);
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/data.js"></script>
+  <script src="js/ofertas.js"></script>
+</body>
+</html>
